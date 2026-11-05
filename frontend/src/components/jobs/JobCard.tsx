@@ -1,3 +1,4 @@
+import i18n from "@/i18n";
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Card, CardContent } from "@/components/ui/card";
@@ -39,9 +40,9 @@ const statePresentation: Record<
   JobRecord["state"],
   { label: string; color: string; Icon: React.ComponentType<{ className?: string }> }
 > = {
-  running: { label: "Running", color: "text-green-400", Icon: Loader2 },
-  done: { label: "Done", color: "text-slate-400", Icon: CheckCircle2 },
-  failed: { label: "Failed", color: "text-red-400", Icon: XCircle },
+  running: { label: i18n.t("Running"), color: "text-green-400", Icon: Loader2 },
+  done: { label: i18n.t("Done"), color: "text-slate-400", Icon: CheckCircle2 },
+  failed: { label: i18n.t("Failed"), color: "text-red-400", Icon: XCircle },
   interrupted: { label: "Interrupted", color: "text-amber-400", Icon: AlertTriangle },
 };
 
@@ -109,7 +110,7 @@ const JobCard: React.FC<Props> = ({ job, onStop, onDelete, onPlay }) => {
     if (isRunning) {
       if (window.confirm("Stop this run?")) onStop(job.id);
     } else if (isImported) {
-      if (window.confirm("Remove this imported model? The source files are left untouched."))
+      if (window.confirm(i18n.t("Remove this imported model? The source files are left untouched.")))
         onDelete(job.id);
     } else if (window.confirm("Delete this run? This wipes the output directory.")) {
       onDelete(job.id);
@@ -192,7 +193,7 @@ const JobCard: React.FC<Props> = ({ job, onStop, onDelete, onPlay }) => {
               style={{ width: `${progressPct}%` }}
             />
             <div className="absolute inset-0 flex items-center justify-center text-xs font-semibold text-white tabular-nums drop-shadow">
-              {isStarting ? "Training starting…" : `${progressPct.toFixed(1)}%`}
+              {isStarting ? i18n.t("Training starting…") : `${progressPct.toFixed(1)}%`}
             </div>
           </div>
         ) : null}
@@ -207,7 +208,7 @@ const JobCard: React.FC<Props> = ({ job, onStop, onDelete, onPlay }) => {
               size="icon"
               onClick={handlePlay}
               className="h-8 w-8 bg-green-500 hover:bg-green-600 text-white"
-              aria-label="Run inference with this checkpoint"
+              aria-label={i18n.t("Run inference with this checkpoint")}
             >
               <Play className="w-4 h-4" />
             </Button>

@@ -1,3 +1,4 @@
+import i18n from "@/i18n";
 import React, { useEffect, useMemo, useState } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import {
@@ -113,7 +114,7 @@ const EditDataset = () => {
     const result = await mergeLocalDatasets(baseUrl, fetchWithHeaders, sourceRepoIds, outputName);
     refresh();
     setDataset(result.repo_id);
-    toast({ title: "Datasets merged", description: `${result.num_episodes} episodes are ready to browse.` });
+    toast({ title: i18n.t("Datasets merged"), description: `${result.num_episodes} episodes are ready to browse.` });
   };
   const handleMove = async (episodeIndices: number[], destination: MoveDestination) => {
     if (!repoId) return;
@@ -123,7 +124,7 @@ const EditDataset = () => {
     setSearchParams(withApi({ dataset: repoId }));
     refreshEpisodes();
     toast({
-      title: "Episodes moved",
+      title: i18n.t("Episodes moved"),
       description: `${result.moved_episodes} moved to ${result.repo_id}, ${result.remaining_episodes} left in ${repoId}.`,
     });
   };
@@ -138,8 +139,8 @@ const EditDataset = () => {
       (e) => {
         refreshEpisodes();
         toast({
-          title: "Task not saved",
-          description: e instanceof Error ? e.message : "Could not save the task.",
+          title: i18n.t("Task not saved"),
+          description: e instanceof Error ? e.message : i18n.t("Could not save the task."),
           variant: "destructive",
         });
       },
@@ -154,23 +155,23 @@ const EditDataset = () => {
         setSavingRepo(null);
         if (status.local_error) {
           refreshEpisodes();
-          toast({ title: "Task not saved", description: status.local_error, variant: "destructive" });
+          toast({ title: i18n.t("Task not saved"), description: status.local_error, variant: "destructive" });
         } else if (status.hub_error) {
           toast({
-            title: "Task saved locally only",
+            title: i18n.t("Task saved locally only"),
             description: `The Hub copy was not updated: ${status.hub_error}.`,
             variant: "destructive",
           });
         } else {
           toast({
-            title: "Tasks saved",
+            title: i18n.t("Tasks saved"),
             description: status.hub_updated ? "The Hub copy is updated too." : undefined,
           });
         }
       } catch (e) {
         setSavingRepo(null);
         toast({
-          title: "Could not check the task edits",
+          title: i18n.t("Could not check the task edits"),
           description: e instanceof Error ? e.message : undefined,
           variant: "destructive",
         });
@@ -205,12 +206,10 @@ const EditDataset = () => {
             className="h-8 gap-1.5 px-2 text-gray-400 hover:bg-gray-900 hover:text-white"
           >
             <ArrowLeft className="h-4 w-4" />
-            Back
-          </Button>
+            {i18n.t("Back")}</Button>
           <h1 className="flex items-center gap-2 text-xl font-semibold tracking-tight">
             <Database className="h-5 w-5 text-orange-500" />
-            Browse dataset
-          </h1>
+            {i18n.t("Browse dataset")}</h1>
 
           <div className="ml-auto flex w-full items-center gap-2 sm:w-auto">
             <div className="w-full sm:w-[380px]">
@@ -227,7 +226,7 @@ const EditDataset = () => {
                   className="h-9 w-full justify-between border-gray-800 bg-gray-950 text-sm text-white hover:bg-gray-900"
                 >
                   <span className="truncate">
-                    {repoId ?? (datasetsLoading ? "Loading datasets…" : "Select or create a dataset…")}
+                    {repoId ?? (datasetsLoading ? i18n.t("Loading datasets…") : i18n.t("Select or create a dataset…"))}
                   </span>
                   <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
                 </Button>
@@ -252,8 +251,7 @@ const EditDataset = () => {
                 className="h-9 gap-1.5 border-gray-800 bg-gray-950 text-xs text-gray-300 hover:bg-gray-900"
               >
                 <SquareArrowOutUpRight className="h-3.5 w-3.5" />
-                Move episodes
-              </Button>
+                {i18n.t("Move episodes")}</Button>
             )}
             {repoId && selectedSource === "both" && (
               <Button
@@ -268,8 +266,7 @@ const EditDataset = () => {
                   rel="noopener noreferrer"
                 >
                   <ExternalLink className="h-3.5 w-3.5" />
-                  View on the Hub
-                </a>
+                  {i18n.t("View on the Hub")}</a>
               </Button>
             )}
             {repoId && selectedSource !== "both" && (
@@ -289,15 +286,14 @@ const EditDataset = () => {
                 className="h-9 gap-1.5 border-gray-800 bg-gray-950 text-xs text-gray-300 hover:bg-gray-900"
               >
                 <Upload className="h-3.5 w-3.5" />
-                Upload
-              </Button>
+                {i18n.t("Upload")}</Button>
             )}
             {repoId && selectedIsLocal && (
               <Button
                 variant="outline"
                 size="icon"
                 onClick={() => setDeleteOpen(true)}
-                aria-label="Delete dataset from disk"
+                aria-label={i18n.t("Delete dataset from disk")}
                 className="h-9 w-9 border-red-500/40 bg-gray-950 text-red-400 hover:border-red-400 hover:bg-red-500/10 hover:text-red-300"
               >
                 <Trash2 className="h-3.5 w-3.5" />
@@ -311,8 +307,7 @@ const EditDataset = () => {
                 className="h-9 gap-1.5 border-gray-800 bg-gray-950 text-xs text-gray-300 hover:bg-gray-900"
               >
                 <Disc className="h-3.5 w-3.5 text-red-500" />
-                Record more
-              </Button>
+                {i18n.t("Record more")}</Button>
             )}
           </div>
         </div>
@@ -320,7 +315,7 @@ const EditDataset = () => {
         {!repoId && (
           <div className="rounded-lg border border-gray-800 bg-gray-950 p-10 text-center">
             <Database className="mx-auto mb-3 h-8 w-8 text-gray-700" />
-            <p className="text-sm text-gray-400">Select a dataset to browse its episodes.</p>
+            <p className="text-sm text-gray-400">{i18n.t("Select a dataset to browse its episodes.")}</p>
             {!datasetsLoading && localDatasets.length === 0 && (
               <p className="mt-2 text-xs text-gray-600">
                 No datasets in the local LeRobot cache. Record one, or download it from the
@@ -333,15 +328,14 @@ const EditDataset = () => {
         {repoId && loading && (
           <div className="flex items-center justify-center gap-2 rounded-lg border border-gray-800 bg-gray-950 p-10 text-sm text-gray-500">
             <Loader2 className="h-4 w-4 animate-spin" />
-            Reading dataset…
-          </div>
+            {i18n.t("Reading dataset…")}</div>
         )}
 
         {repoId && error && (
           <div className="flex items-start gap-2 rounded-lg border border-red-900/50 bg-red-950/30 p-4">
             <AlertCircle className="mt-0.5 h-4 w-4 flex-none text-red-400" />
             <div>
-              <p className="text-sm font-medium text-red-300">Could not read this dataset</p>
+              <p className="text-sm font-medium text-red-300">{i18n.t("Could not read this dataset")}</p>
               <p className="mt-0.5 text-xs text-red-400/80">{error}</p>
             </div>
           </div>
@@ -350,13 +344,13 @@ const EditDataset = () => {
         {repoId && data?.success && (
           <>
             <div className="mb-4 flex flex-wrap items-center gap-x-5 gap-y-1 rounded-lg border border-gray-800 bg-gray-950 px-4 py-2.5 text-xs">
-              <Stat label="Episodes" value={String(data.total_episodes)} />
+              <Stat label={i18n.t("Episodes")} value={String(data.total_episodes)} />
               <Stat label="Frames" value={data.total_frames?.toLocaleString() ?? "—"} />
               <Stat label="FPS" value={String(data.fps ?? "—")} />
               <Stat label="Robot" value={data.robot_type ?? "—"} />
-              <Stat label="Cameras" value={Object.keys(data.image_features).join(", ") || "—"} />
-              {detail && <Stat label="This episode" value={formatDuration(detail.duration_s)} />}
-              {savingRepo === repoId && <span className="text-gray-500">Saving tasks…</span>}
+              <Stat label={i18n.t("Cameras")} value={Object.keys(data.image_features).join(", ") || "—"} />
+              {detail && <Stat label={i18n.t("This episode")} value={formatDuration(detail.duration_s)} />}
+              {savingRepo === repoId && <span className="text-gray-500">{i18n.t("Saving tasks…")}</span>}
             </div>
 
             <div className="grid grid-cols-1 gap-4 lg:grid-cols-[260px_1fr]">
@@ -371,8 +365,7 @@ const EditDataset = () => {
                 {detailLoading && !detail && (
                   <div className="flex h-64 items-center justify-center gap-2 rounded-lg border border-gray-800 bg-gray-950 text-sm text-gray-500">
                     <Loader2 className="h-4 w-4 animate-spin" />
-                    Loading episode…
-                  </div>
+                    {i18n.t("Loading episode…")}</div>
                 )}
                 {detailError && (
                   <div className="rounded-lg border border-red-900/50 bg-red-950/30 p-4 text-xs text-red-400">

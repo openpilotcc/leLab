@@ -1,3 +1,4 @@
+import i18n from "@/i18n";
 
 import React from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
@@ -17,8 +18,7 @@ const TrainingLogs: React.FC<TrainingLogsProps> = ({ logs, logContainerRef }) =>
           <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-slate-700">
             <FileText className="w-5 h-5 text-sky-400" />
           </div>
-          Training Logs
-        </CardTitle>
+          {i18n.t("Training Logs")}</CardTitle>
       </CardHeader>
       <CardContent>
         <div
@@ -27,8 +27,7 @@ const TrainingLogs: React.FC<TrainingLogsProps> = ({ logs, logContainerRef }) =>
         >
           {logs.length === 0 ? (
             <div className="text-slate-500 py-8">
-              No training logs yet. Start training to see output.
-            </div>
+              {i18n.t("No training logs yet. Start training to see output.")}</div>
           ) : (
             logs.map((log, index) => (
               <div

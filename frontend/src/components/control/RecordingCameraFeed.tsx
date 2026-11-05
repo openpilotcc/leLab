@@ -1,3 +1,4 @@
+import i18n from "@/i18n";
 import React, { useState, useEffect, useRef, useCallback } from "react";
 
 interface CameraFeedProps {
@@ -54,9 +55,9 @@ const RecordingCameraFeed: React.FC<CameraFeedProps> = ({
       className="relative bg-gray-900 rounded-lg border border-gray-700 overflow-hidden flex items-center justify-center"
     >
       {!live ? (
-        <span className="text-gray-500 text-sm">Getting ready…</span>
+        <span className="text-gray-500 text-sm">{i18n.t("Getting ready…")}</span>
       ) : hasError ? (
-        <span className="text-gray-500 text-sm">Connecting feed…</span>
+        <span className="text-gray-500 text-sm">{i18n.t("Connecting feed…")}</span>
       ) : (
         <img
           src={src}

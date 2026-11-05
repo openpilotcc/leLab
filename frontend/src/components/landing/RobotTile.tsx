@@ -1,3 +1,4 @@
+import i18n from "@/i18n";
 import React, { useState } from "react";
 import { Settings, Trash2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -41,7 +42,7 @@ const RobotTile: React.FC<RobotTileProps> = ({
   onDelete,
 }) => {
   const [confirmDelete, setConfirmDelete] = useState(false);
-  const status = robot ? (robot.is_clean ? "Ready" : "Needs configuration") : null;
+  const status = robot ? (robot.is_clean ? "Ready" : i18n.t("Needs configuration")) : null;
   const teleopDisabled = !robot || !robot.is_clean;
 
   return (
@@ -80,7 +81,7 @@ const RobotTile: React.FC<RobotTileProps> = ({
                   <Settings className="w-4 h-4" />
                 </Button>
               </TooltipTrigger>
-              <TooltipContent>Configure (calibrate)</TooltipContent>
+              <TooltipContent>{i18n.t("Configure (calibrate)")}</TooltipContent>
             </Tooltip>
             <Tooltip>
               <TooltipTrigger asChild>
@@ -89,12 +90,12 @@ const RobotTile: React.FC<RobotTileProps> = ({
                   variant="ghost"
                   className="h-8 w-8 text-red-400 hover:text-red-300 hover:bg-red-900/20"
                   onClick={() => setConfirmDelete(true)}
-                  aria-label="Delete robot"
+                  aria-label={i18n.t("Delete robot")}
                 >
                   <Trash2 className="w-4 h-4" />
                 </Button>
               </TooltipTrigger>
-              <TooltipContent>Delete robot config</TooltipContent>
+              <TooltipContent>{i18n.t("Delete robot config")}</TooltipContent>
             </Tooltip>
           </div>
         )}
@@ -113,12 +114,11 @@ const RobotTile: React.FC<RobotTileProps> = ({
                     : "bg-yellow-500 hover:bg-yellow-600 text-white"
                 }`}
               >
-                Teleoperation
-              </Button>
+                {i18n.t("Teleoperation")}</Button>
             </div>
           </TooltipTrigger>
           {teleopDisabled && (
-            <TooltipContent>Configure the robot first.</TooltipContent>
+            <TooltipContent>{i18n.t("Configure the robot first.")}</TooltipContent>
           )}
         </Tooltip>
       )}
@@ -127,11 +127,9 @@ const RobotTile: React.FC<RobotTileProps> = ({
         <Dialog open={confirmDelete} onOpenChange={setConfirmDelete}>
           <DialogContent className="bg-gray-900 border-gray-800 text-white">
             <DialogHeader>
-              <DialogTitle>Delete robot config?</DialogTitle>
+              <DialogTitle>{i18n.t("Delete robot config?")}</DialogTitle>
               <DialogDescription className="text-gray-400">
-                This deletes the robot config file from disk. Calibration files
-                are not removed. This cannot be undone.
-              </DialogDescription>
+                {i18n.t("This deletes the robot config file from disk. Calibration files are not removed. This cannot be undone.")}</DialogDescription>
             </DialogHeader>
             <DialogFooter className="flex gap-2 justify-end">
               <Button
@@ -139,8 +137,7 @@ const RobotTile: React.FC<RobotTileProps> = ({
                 className="border-gray-600 text-gray-300"
                 onClick={() => setConfirmDelete(false)}
               >
-                Cancel
-              </Button>
+                {i18n.t("Cancel")}</Button>
               <Button
                 className="bg-red-500 hover:bg-red-600 text-white"
                 onClick={async () => {
@@ -148,8 +145,7 @@ const RobotTile: React.FC<RobotTileProps> = ({
                   await onDelete(robot.name);
                 }}
               >
-                Delete
-              </Button>
+                {i18n.t("Delete")}</Button>
             </DialogFooter>
           </DialogContent>
         </Dialog>

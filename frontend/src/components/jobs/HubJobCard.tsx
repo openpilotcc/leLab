@@ -1,3 +1,4 @@
+import i18n from "@/i18n";
 import React from "react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -35,20 +36,20 @@ interface StagePresentation {
 }
 
 const stagePresentation: Record<string, StagePresentation> = {
-  RUNNING: { label: "Running", color: "text-green-400", Icon: Loader2, spin: true },
+  RUNNING: { label: i18n.t("Running"), color: "text-green-400", Icon: Loader2, spin: true },
   QUEUED: { label: "Queued", color: "text-amber-400", Icon: Clock },
   SCHEDULING: { label: "Scheduling", color: "text-amber-400", Icon: Clock },
-  COMPLETED: { label: "Done", color: "text-slate-400", Icon: CheckCircle2 },
-  FAILED: { label: "Failed", color: "text-red-400", Icon: XCircle },
+  COMPLETED: { label: i18n.t("Done"), color: "text-slate-400", Icon: CheckCircle2 },
+  FAILED: { label: i18n.t("Failed"), color: "text-red-400", Icon: XCircle },
   // HF API uses "CANCELED" (single L); accept both spellings.
-  CANCELED: { label: "Cancelled", color: "text-amber-400", Icon: AlertTriangle },
-  CANCELLED: { label: "Cancelled", color: "text-amber-400", Icon: AlertTriangle },
+  CANCELED: { label: i18n.t("Cancelled"), color: "text-amber-400", Icon: AlertTriangle },
+  CANCELLED: { label: i18n.t("Cancelled"), color: "text-amber-400", Icon: AlertTriangle },
 };
 
 const HubJobCard: React.FC<Props> = ({ job }) => {
   const stage = job.status?.stage?.toUpperCase() ?? "";
   const present: StagePresentation = stagePresentation[stage] ?? {
-    label: stage || "Unknown",
+    label: stage || i18n.t("Unknown"),
     color: "text-slate-400",
     Icon: HelpCircle,
   };
@@ -72,7 +73,7 @@ const HubJobCard: React.FC<Props> = ({ job }) => {
             size="icon"
             asChild
             className="h-7 w-7 text-slate-400 hover:text-white"
-            aria-label="View on Hub"
+            aria-label={i18n.t("View on Hub")}
           >
             <a
               href={job.url}

@@ -1,3 +1,4 @@
+import i18n from "@/i18n";
 
 import React from 'react';
 import { Mic, MicOff, Send, Camera } from 'lucide-react';
@@ -31,7 +32,7 @@ const CommandBar: React.FC<CommandBarProps> = ({
         <Input
           value={command}
           onChange={(e) => setCommand(e.target.value)}
-          placeholder="Tell the robot what to do..."
+          placeholder={i18n.t("Tell the robot what to do...")}
           className="flex-1 bg-gray-800 border-gray-600 text-white placeholder-gray-400 text-lg py-3"
           onKeyPress={(e) => e.key === 'Enter' && handleSendCommand()}
         />
@@ -53,8 +54,7 @@ const CommandBar: React.FC<CommandBarProps> = ({
             }`}
           >
             {isVoiceActive ? <Mic strokeWidth={1.5} /> : <MicOff strokeWidth={1.5} />}
-            Voice Command
-          </Button>
+            {i18n.t("Voice Command")}</Button>
 
           <Button
             onClick={() => setShowCamera(!showCamera)}
@@ -70,8 +70,7 @@ const CommandBar: React.FC<CommandBarProps> = ({
             onClick={handleEndSession}
             className="bg-red-600 hover:bg-red-700 px-6 py-2"
           >
-            End Session
-          </Button>
+            {i18n.t("End Session")}</Button>
         </div>
       </div>
     </div>

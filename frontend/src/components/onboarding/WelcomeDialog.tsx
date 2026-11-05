@@ -1,3 +1,4 @@
+import i18n from "@/i18n";
 import React from "react";
 import {
   Dialog,
@@ -17,7 +18,7 @@ interface WelcomeDialogProps {
 
 // The stages a newcomer will walk through, shown as a quick preview so the
 // tour's value is clear before they commit two minutes to it.
-const STAGES = ["Calibrate", "Record", "Train", "Run"];
+const STAGES = [i18n.t("Calibrate"), i18n.t("Record"), "Train", i18n.t("Run")];
 
 const WelcomeDialog: React.FC<WelcomeDialogProps> = ({
   open,
@@ -30,12 +31,9 @@ const WelcomeDialog: React.FC<WelcomeDialogProps> = ({
         <DialogHeader className="text-center sm:text-center">
           <DialogTitle className="flex items-center justify-center gap-2 text-xl text-white">
             <Compass className="h-6 w-6 text-blue-400" />
-            Welcome to LeLab
-          </DialogTitle>
+            {i18n.t("Welcome to LeLab")}</DialogTitle>
           <DialogDescription>
-            New to teaching a robot arm? A two-minute guided tour walks you
-            through the whole loop, no jargon required.
-          </DialogDescription>
+            {i18n.t("New to teaching a robot arm? A two-minute guided tour walks you through the whole loop, no jargon required.")}</DialogDescription>
         </DialogHeader>
 
         <div className="py-2">
@@ -59,15 +57,13 @@ const WelcomeDialog: React.FC<WelcomeDialogProps> = ({
             className="w-full bg-blue-600 text-white hover:bg-blue-700 sm:w-auto"
           >
             <Route className="mr-2 h-4 w-4" />
-            Take the tour
-          </Button>
+            {i18n.t("Take the tour")}</Button>
           <Button
             variant="ghost"
             onClick={onDismiss}
             className="w-full text-gray-400 hover:text-white sm:w-auto"
           >
-            Maybe later
-          </Button>
+            {i18n.t("Maybe later")}</Button>
         </div>
       </DialogContent>
     </Dialog>

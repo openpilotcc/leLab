@@ -1,3 +1,4 @@
+import i18n from "@/i18n";
 
 import React, { useEffect, useRef } from 'react';
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
@@ -40,25 +41,23 @@ const MetricsPanel: React.FC<MetricsPanelProps> = ({
         {/* Tab Headers */}
         <div className="flex mb-4">
           <button
-            onClick={() => setActiveTab('MOTORS')}
+            onClick={() => setActiveTab("MOTORS")}
             className={`px-6 py-2 rounded-t-lg text-sm sm:text-base ${
               activeTab === 'MOTORS'
                 ? 'bg-orange-500 text-white'
                 : 'bg-gray-700 text-gray-300 hover:bg-gray-600'
             }`}
           >
-            MOTORS
-          </button>
+            {i18n.t("MOTORS")}</button>
           <button
-            onClick={() => setActiveTab('SENSORS')}
+            onClick={() => setActiveTab("SENSORS")}
             className={`px-6 py-2 rounded-t-lg ml-2 text-sm sm:text-base ${
               activeTab === 'SENSORS'
                 ? 'bg-orange-500 text-white'
                 : 'bg-gray-700 text-gray-300 hover:bg-gray-600'
             }`}
           >
-            SENSORS
-          </button>
+            {i18n.t("SENSORS")}</button>
         </div>
 
         {/* Chart Content */}
@@ -67,7 +66,7 @@ const MetricsPanel: React.FC<MetricsPanelProps> = ({
             <div className="space-y-4">
               {/* Webcam Feed */}
               <div className="border border-gray-800 rounded p-2 flex flex-col h-64">
-                <h3 className="text-sm text-white font-medium mb-2">Live Camera Feed</h3>
+                <h3 className="text-sm text-white font-medium mb-2">{i18n.t("Live Camera Feed")}</h3>
                 {hasPermissions ? (
                   <div className="flex-1 bg-black rounded overflow-hidden">
                     <video
@@ -82,7 +81,7 @@ const MetricsPanel: React.FC<MetricsPanelProps> = ({
                   <div className="flex-1 flex items-center justify-center bg-black rounded">
                     <div className="text-center">
                       <Camera className="w-12 h-12 mx-auto text-gray-500 mb-2" />
-                      <p className="text-gray-400">Camera permission not granted.</p>
+                      <p className="text-gray-400">{i18n.t("Camera permission not granted.")}</p>
                     </div>
                   </div>
                 )}
@@ -91,7 +90,7 @@ const MetricsPanel: React.FC<MetricsPanelProps> = ({
               {/* Mic Detection & Other Sensors */}
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div className="border border-gray-800 rounded p-2 flex flex-col justify-center min-h-[120px]">
-                    <h3 className="text-sm text-center text-white font-medium mb-2">Voice Activity</h3>
+                    <h3 className="text-sm text-center text-white font-medium mb-2">{i18n.t("Voice Activity")}</h3>
                   {hasPermissions ? (
                     <div className="flex-1 flex flex-col items-center justify-center gap-2 text-center">
                       <div className="flex items-end h-10 gap-px w-full justify-center">
@@ -107,14 +106,14 @@ const MetricsPanel: React.FC<MetricsPanelProps> = ({
                         })}
                       </div>
                       <p className="text-xs text-gray-300">
-                        {isVoiceActive ? "Voice commands active" : "Voice commands muted"}
+                        {isVoiceActive ? i18n.t("Voice commands active") : i18n.t("Voice commands muted")}
                       </p>
                     </div>
                   ) : (
                     <div className="flex-1 flex items-center justify-center bg-black rounded">
                       <div className="text-center">
                         <MicOff className="w-8 h-8 mx-auto text-gray-500 mb-2" />
-                        <p className="text-gray-400">Microphone permission not granted.</p>
+                        <p className="text-gray-400">{i18n.t("Microphone permission not granted.")}</p>
                       </div>
                     </div>
                   )}

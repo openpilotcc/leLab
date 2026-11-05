@@ -1,3 +1,4 @@
+import i18n from "@/i18n";
 import React, { useEffect, useRef, useState } from "react";
 import { Button } from "@/components/ui/button";
 import {
@@ -51,7 +52,7 @@ const PortDetectionModal: React.FC<PortDetectionModalProps> = ({
       const startData = await startResponse.json();
       if (cancelledRef.current) return;
       if (startData.status !== "success") {
-        throw new Error(startData.message || "Failed to start port detection");
+        throw new Error(startData.message || i18n.t("Failed to start port detection"));
       }
       const portsBefore: string[] = startData.data.ports_before;
 
@@ -77,7 +78,7 @@ const PortDetectionModal: React.FC<PortDetectionModalProps> = ({
           if (cancelledRef.current) return;
           setStep("success");
           toast({
-            title: "Port Detected Successfully",
+            title: i18n.t("Port Detected Successfully"),
             description: `${robotType} port detected: ${data.port}`,
           });
           successTimerRef.current = window.setTimeout(() => {
@@ -90,14 +91,14 @@ const PortDetectionModal: React.FC<PortDetectionModalProps> = ({
 
         const message =
           typeof data.message === "string" ? data.message : "";
-        if (message.includes("Timed out")) continue;
-        throw new Error(message || "Failed to detect port");
+        if (message.includes(i18n.t("Timed out"))) continue;
+        throw new Error(message || i18n.t("Failed to detect port"));
       }
     } catch (e) {
       if (cancelledRef.current) return;
       if (e instanceof DOMException && e.name === "AbortError") return;
       console.error("Port detection failed:", e);
-      setError(e instanceof Error ? e.message : "Unknown error");
+      setError(e instanceof Error ? e.message : i18n.t("Unknown error"));
       setStep("error");
     }
   };
@@ -152,12 +153,10 @@ const PortDetectionModal: React.FC<PortDetectionModalProps> = ({
             <Loader2 className="w-16 h-16 text-blue-500 mx-auto animate-spin" />
             <div className="space-y-2">
               <h3 className="text-lg font-semibold text-white">
-                Unplug the {robotType} arm
+                {i18n.t("Unplug the")} {robotType} arm
               </h3>
               <p className="text-gray-400">
-                Disconnect the {robotType} robot arm from USB. The port will be
-                detected automatically.
-              </p>
+                {i18n.t("Disconnect the")} {robotType} {i18n.t("robot arm from USB. The port will be detected automatically.")}</p>
             </div>
             <div className="flex justify-center">
               <Button
@@ -165,8 +164,7 @@ const PortDetectionModal: React.FC<PortDetectionModalProps> = ({
                 variant="outline"
                 className="border-gray-500 hover:border-gray-200 text-gray-300 hover:text-white px-8 py-2"
               >
-                Cancel
-              </Button>
+                {i18n.t("Cancel")}</Button>
             </div>
           </div>
         );
@@ -177,8 +175,7 @@ const PortDetectionModal: React.FC<PortDetectionModalProps> = ({
             <CheckCircle className="w-16 h-16 text-green-500 mx-auto" />
             <div className="space-y-2">
               <h3 className="text-lg font-semibold text-white">
-                Port Detected
-              </h3>
+                {i18n.t("Port Detected")}</h3>
               <p className="text-xl font-mono text-green-400 bg-gray-800 px-4 py-2 rounded inline-block">
                 {detectedPort}
               </p>
@@ -192,8 +189,7 @@ const PortDetectionModal: React.FC<PortDetectionModalProps> = ({
             <AlertCircle className="w-16 h-16 text-red-500 mx-auto" />
             <div className="space-y-2">
               <h3 className="text-lg font-semibold text-white">
-                Detection Failed
-              </h3>
+                {i18n.t("Detection Failed")}</h3>
               <div className="bg-red-900/20 border border-red-800 rounded-lg p-3">
                 <p className="text-red-400 text-sm">{error}</p>
               </div>
@@ -203,15 +199,13 @@ const PortDetectionModal: React.FC<PortDetectionModalProps> = ({
                 onClick={handleRetry}
                 className="bg-blue-500 hover:bg-blue-600 text-white px-8 py-2"
               >
-                Try Again
-              </Button>
+                {i18n.t("Try Again")}</Button>
               <Button
                 onClick={handleCancel}
                 variant="outline"
                 className="border-gray-500 hover:border-gray-200 text-gray-300 hover:text-white px-8 py-2"
               >
-                Cancel
-              </Button>
+                {i18n.t("Cancel")}</Button>
             </div>
           </div>
         );
@@ -226,10 +220,9 @@ const PortDetectionModal: React.FC<PortDetectionModalProps> = ({
       <DialogContent className="bg-gray-900 border-gray-800 text-white sm:max-w-[500px] p-8">
         <DialogHeader>
           <DialogTitle className="text-white text-center text-xl font-bold">
-            Port Detection
-          </DialogTitle>
+            {i18n.t("Port Detection")}</DialogTitle>
           <DialogDescription className="text-gray-400 text-center">
-            Detect the USB port for your {robotType} arm
+            {i18n.t("Detect the USB port for your")} {robotType} arm
           </DialogDescription>
         </DialogHeader>
 

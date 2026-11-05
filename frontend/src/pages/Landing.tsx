@@ -1,3 +1,4 @@
+import i18n from "@/i18n";
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { ChevronsUpDown } from "lucide-react";
@@ -84,8 +85,7 @@ const Landing = () => {
               data-tour="dataset-picker"
             >
               <h3 className="font-semibold text-lg text-left h-10 flex items-center">
-                Dataset
-              </h3>
+                {i18n.t("Dataset")} </h3>
               <DatasetPicker
                 datasets={datasets}
                 loading={datasetsLoading}
@@ -100,8 +100,8 @@ const Landing = () => {
                 >
                   <span className="truncate text-gray-300">
                     {datasetsLoading
-                      ? "Loading datasets…"
-                      : "Select or create a dataset…"}
+                      ? i18n.t("Loading datasets…")
+                      : i18n.t("Select or create a dataset…")}
                   </span>
                   <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
                 </Button>
@@ -112,14 +112,12 @@ const Landing = () => {
               data-tour="training-entry"
             >
               <h3 className="font-semibold text-lg text-left h-10 flex items-center">
-                Create a model
-              </h3>
+                {i18n.t("Create a model")}</h3>
               <Button
                 onClick={handleTrainingClick}
                 className="w-full bg-green-500 hover:bg-green-600 text-white"
               >
-                Training
-              </Button>
+                {i18n.t("Training")}</Button>
             </div>
           </div>
         </div>

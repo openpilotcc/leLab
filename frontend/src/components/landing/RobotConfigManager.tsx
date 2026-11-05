@@ -1,3 +1,4 @@
+import i18n from "@/i18n";
 import React from "react";
 import { useNavigate } from "react-router-dom";
 import { useApi } from "@/contexts/ApiContext";
@@ -50,21 +51,21 @@ const RobotConfigManager: React.FC<RobotConfigManagerProps> = ({
       // — not just `res.ok` — or we'd navigate to an empty teleop screen.
       if (res.ok && data.success) {
         toast({
-          title: "Teleoperation Started",
+          title: i18n.t("Teleoperation Started"),
           description: data.message || `Started teleoperation for ${robot.name}.`,
         });
         navigate("/teleoperation");
       } else {
         toast({
-          title: "Error Starting Teleoperation",
+          title: i18n.t("Error Starting Teleoperation"),
           description: data.message || "Failed to start.",
           variant: "destructive",
         });
       }
     } catch (e) {
       toast({
-        title: "Connection Error",
-        description: "Could not connect to the backend server.",
+        title: i18n.t("Connection Error"),
+        description: i18n.t("Could not connect to the backend server."),
         variant: "destructive",
       });
     }

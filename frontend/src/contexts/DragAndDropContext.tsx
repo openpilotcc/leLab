@@ -1,3 +1,4 @@
+import i18n from "@/i18n";
 import React, {
   createContext,
   useState,
@@ -101,10 +102,9 @@ export const DragAndDropProvider: React.FC<DragAndDropProviderProps> = ({
       {isDragging && (
         <div className="fixed inset-0 bg-primary/10 pointer-events-none z-50 flex items-center justify-center">
           <div className="bg-background p-8 rounded-lg shadow-lg text-center">
-            <div className="text-3xl font-bold mb-4">Drop Urdf Files Here</div>
+            <div className="text-3xl font-bold mb-4">{i18n.t("Drop Urdf Files Here")}</div>
             <p className="text-muted-foreground">
-              Release to upload your robot model
-            </p>
+              {i18n.t("Release to upload your robot model")}</p>
           </div>
         </div>
       )}

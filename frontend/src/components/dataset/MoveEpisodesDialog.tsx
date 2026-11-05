@@ -1,3 +1,4 @@
+import i18n from "@/i18n";
 import { useEffect, useMemo, useState } from "react";
 import { ChevronsUpDown, Loader2 } from "lucide-react";
 
@@ -70,7 +71,7 @@ export default function MoveEpisodesDialog({
       await onMove(episodes, destination);
       onOpenChange(false);
     } catch (caughtError) {
-      setError(caughtError instanceof Error ? caughtError.message : "Could not move the episodes.");
+      setError(caughtError instanceof Error ? caughtError.message : i18n.t("Could not move the episodes."));
     } finally {
       setMoving(false);
     }
@@ -80,18 +81,16 @@ export default function MoveEpisodesDialog({
     <Dialog open={open} onOpenChange={handleOpenChange}>
       <DialogContent className="border-gray-700 bg-gray-900 text-gray-300 sm:max-w-lg">
         <DialogHeader>
-          <DialogTitle className="text-white">Move episodes to another dataset</DialogTitle>
+          <DialogTitle className="text-white">{i18n.t("Move episodes to another dataset")}</DialogTitle>
           <DialogDescription>
-            The episodes leave <code>{repoId}</code> and go to a new or an existing local dataset.
-            The episodes left in <code>{repoId}</code> are renumbered.
-          </DialogDescription>
+            {i18n.t("The episodes leave")} <code>{repoId}</code> and go to a new or an existing local dataset.
+            The episodes left in <code>{repoId}</code> {i18n.t("are renumbered.")}</DialogDescription>
         </DialogHeader>
 
         <div className="space-y-3">
           <div className="space-y-2">
             <Label htmlFor="move-episodes" className="text-gray-300">
-              Episodes
-            </Label>
+              {i18n.t("Episodes")}</Label>
             <Input
               id="move-episodes"
               value={episodesText}
@@ -105,11 +104,11 @@ export default function MoveEpisodesDialog({
             />
             {episodesText.trim() && episodes === null && (
               <p className="text-xs text-red-400">
-                Use episode numbers from 0 to {totalEpisodes - 1}, e.g. 3, 7, 10-12.
+                {i18n.t("Use episode numbers from 0 to")} {totalEpisodes - 1}, e.g. 3, 7, 10-12.
               </p>
             )}
             {movesEverything && (
-              <p className="text-xs text-red-400">At least one episode must stay in the dataset.</p>
+              <p className="text-xs text-red-400">{i18n.t("At least one episode must stay in the dataset.")}</p>
             )}
           </div>
 
@@ -129,7 +128,7 @@ export default function MoveEpisodesDialog({
               >
                 <span className="truncate">
                   {destination === null
-                    ? "Select or create a dataset…"
+                    ? i18n.t("Select or create a dataset…")
                     : "newName" in destination
                       ? `local/${destination.newName}`
                       : destination.existingRepoId}
@@ -141,13 +140,11 @@ export default function MoveEpisodesDialog({
               <p className="text-xs text-gray-500">
                 {"newName" in destination ? (
                   <>
-                    Saved locally as <code>local/{destination.newName}</code>.
+                    {i18n.t("Saved locally as")} <code>local/{destination.newName}</code>.
                   </>
                 ) : (
                   <>
-                    Merged into <code>{destination.existingRepoId}</code> after its own episodes. It must
-                    have the same fps, features and robot type.
-                  </>
+                    {i18n.t("Merged into")} <code>{destination.existingRepoId}</code> {i18n.t("after its own episodes. It must have the same fps, features and robot type.")}</>
                 )}
               </p>
             )}
@@ -157,8 +154,7 @@ export default function MoveEpisodesDialog({
 
         <DialogFooter>
           <Button variant="outline" onClick={() => handleOpenChange(false)} disabled={moving}>
-            Cancel
-          </Button>
+            {i18n.t("Cancel")}</Button>
           <Button onClick={handleMove} disabled={!canMove}>
             {moving && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
             {moving

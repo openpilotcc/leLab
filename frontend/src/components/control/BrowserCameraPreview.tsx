@@ -1,3 +1,4 @@
+import i18n from "@/i18n";
 import React from "react";
 import { VideoOff } from "lucide-react";
 import { useCameraStream } from "@/hooks/useCameraStream";
@@ -66,7 +67,7 @@ export default function BrowserCameraPreview({
         <div className="absolute inset-0 flex flex-col items-center justify-center">
           <VideoOff className="w-5 h-5 text-gray-500 mb-1" />
           <span className="text-xs text-gray-500">
-            {rotationError ?? fallback ?? (paused ? "Preview paused" : deviceId ? "Preview failed" : "No camera selected")}
+            {rotationError ?? fallback ?? (paused ? i18n.t("Preview paused") : deviceId ? i18n.t("Preview failed") : i18n.t("No camera selected"))}
           </span>
         </div>
       )}

@@ -1,6 +1,7 @@
 import React from "react";
 import HfAuthChip from "./HfAuthChip";
 import TourLauncher from "@/components/onboarding/TourLauncher";
+import LanguageSwitcher from "@/components/LanguageSwitcher";
 
 const LandingTopBar: React.FC = () => {
   return (
@@ -19,6 +20,7 @@ const LandingTopBar: React.FC = () => {
         <div className="flex items-center gap-2">
           <TourLauncher variant="inline" />
           <HfAuthChip />
+          <LanguageSwitcher />
         </div>
       </div>
     </header>

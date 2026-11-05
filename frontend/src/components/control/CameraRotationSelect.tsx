@@ -1,3 +1,4 @@
+import i18n from "@/i18n";
 import React, { useId } from "react";
 import { Label } from "@/components/ui/label";
 import { CAMERA_ROTATIONS, CameraRotation, cameraRotation } from "@/lib/cameraConfig";
@@ -20,9 +21,9 @@ export default function CameraRotationSelect({ rotation, onChange, disabled }: P
         onChange={(event) => onChange(cameraRotation(Number(event.target.value)))}
         className="bg-gray-800 border border-gray-700 rounded text-white text-xs h-7 px-2"
       >
-        {rotation === null && <option value="" disabled>Choose rotation</option>}
+        {rotation === null && <option value="" disabled>{i18n.t("Choose rotation")}</option>}
         {CAMERA_ROTATIONS.map((angle) => (
-          <option key={angle} value={angle}>{angle}° clockwise</option>
+          <option key={angle} value={angle}>{angle}{i18n.t("° clockwise")}</option>
         ))}
       </select>
     </div>

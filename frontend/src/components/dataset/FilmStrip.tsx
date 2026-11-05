@@ -1,3 +1,4 @@
+import i18n from "@/i18n";
 import React, { useEffect, useState } from "react";
 import { Loader2 } from "lucide-react";
 import { useApi } from "@/contexts/ApiContext";
@@ -68,8 +69,7 @@ const FilmStrip: React.FC<FilmStripProps> = ({
   if (thumbs.length === 0) {
     return (
       <div className="flex h-[68px] items-center justify-center rounded-md border border-gray-800 bg-gray-950 text-xs text-gray-600">
-        No thumbnails
-      </div>
+        {i18n.t("No thumbnails")}</div>
     );
   }
 

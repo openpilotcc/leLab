@@ -1,3 +1,4 @@
+import i18n from "@/i18n";
 import React from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Label } from "@/components/ui/label";
@@ -50,17 +51,17 @@ const TargetCard: React.FC<TargetCardProps> = ({
   return (
     <Card className="bg-slate-800/50 border-slate-700 rounded-xl">
       <CardHeader>
-        <CardTitle className="text-white">Compute target</CardTitle>
+        <CardTitle className="text-white">{i18n.t("Compute target")}</CardTitle>
       </CardHeader>
       <CardContent className="space-y-3">
         <div>
-          <Label className="text-slate-300">Run training on</Label>
+          <Label className="text-slate-300">{i18n.t("Run training on")}</Label>
           <Select value={value} onValueChange={handleChange}>
             <SelectTrigger className="bg-slate-900 border-slate-600 text-white rounded-lg mt-1">
-              <SelectValue placeholder={loading ? "Loading…" : "Select target"} />
+              <SelectValue placeholder={loading ? i18n.t("Loading…") : i18n.t("Select target")} />
             </SelectTrigger>
             <SelectContent className="bg-slate-800 border-slate-600 text-white">
-              <SelectItem value="local">Local — your machine (free)</SelectItem>
+              <SelectItem value="local">{i18n.t("Local — your machine (free)")}</SelectItem>
               {flavors.map((f) => (
                 <SelectItem
                   key={f.name}
@@ -78,9 +79,7 @@ const TargetCard: React.FC<TargetCardProps> = ({
             </SelectContent>
           </Select>
           <p className="text-xs text-slate-500 mt-1">
-            Cost shown is per running hour. Final policy uploads to your HF
-            account when training completes.
-          </p>
+            {i18n.t("Cost shown is per running hour. Final policy uploads to your HF account when training completes.")}</p>
         </div>
       </CardContent>
     </Card>

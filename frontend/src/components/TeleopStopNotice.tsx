@@ -1,3 +1,4 @@
+import i18n from "@/i18n";
 import { useEffect } from "react";
 import { useToast } from "@/hooks/use-toast";
 
@@ -24,8 +25,8 @@ const TeleopStopNotice = () => {
     }
     if (stopped) {
       toast({
-        title: "Teleoperation stopped",
-        description: "The arm was disconnected cleanly when you left the page.",
+        title: i18n.t("Teleoperation stopped"),
+        description: i18n.t("The arm was disconnected cleanly when you left the page."),
       });
     }
   }, [toast]);

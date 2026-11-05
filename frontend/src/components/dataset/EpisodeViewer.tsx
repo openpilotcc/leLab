@@ -1,3 +1,4 @@
+import i18n from "@/i18n";
 import React, { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import {
   ChevronLeft,
@@ -188,7 +189,7 @@ const EpisodeViewer: React.FC<EpisodeViewerProps> = ({ repoId, detail, onNavigat
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => {
       const el = e.target as HTMLElement | null;
-      if (el && ["INPUT", "TEXTAREA", "SELECT"].includes(el.tagName)) return;
+      if (el && [i18n.t("INPUT"), "TEXTAREA", "SELECT"].includes(el.tagName)) return;
       if (e.code === "Space") {
         e.preventDefault();
         togglePlay();
@@ -205,8 +206,7 @@ const EpisodeViewer: React.FC<EpisodeViewerProps> = ({ repoId, detail, onNavigat
   if (!activeInfo) {
     return (
       <div className="flex h-64 items-center justify-center rounded-lg border border-gray-800 bg-gray-950 text-sm text-gray-500">
-        This episode has no camera videos on disk.
-      </div>
+        {i18n.t("This episode has no camera videos on disk.")}</div>
     );
   }
 
@@ -243,8 +243,7 @@ const EpisodeViewer: React.FC<EpisodeViewerProps> = ({ repoId, detail, onNavigat
             }`}
           >
             <Grid2X2 className="h-3.5 w-3.5" />
-            All cameras
-          </Button>
+            {i18n.t("All cameras")}</Button>
         )}
 
         <div className="ml-auto flex items-center gap-2">
@@ -349,7 +348,7 @@ const EpisodeViewer: React.FC<EpisodeViewerProps> = ({ repoId, detail, onNavigat
           size="sm"
           onClick={togglePlay}
           className="h-8 w-8 bg-orange-600 p-0 hover:bg-orange-500"
-          title="Play / pause (Space)"
+          title={i18n.t("Play / pause (Space)")}
         >
           {playing ? <Pause className="h-4 w-4" /> : <Play className="h-4 w-4" />}
         </Button>
@@ -358,7 +357,7 @@ const EpisodeViewer: React.FC<EpisodeViewerProps> = ({ repoId, detail, onNavigat
           size="sm"
           onClick={() => seekToFrame(currentFrame - 1)}
           className="h-8 w-8 border-gray-800 bg-gray-950 p-0 text-gray-300 hover:bg-gray-900"
-          title="Previous frame (←)"
+          title={i18n.t("Previous frame (←)")}
         >
           <SkipBack className="h-3.5 w-3.5" />
         </Button>
@@ -367,7 +366,7 @@ const EpisodeViewer: React.FC<EpisodeViewerProps> = ({ repoId, detail, onNavigat
           size="sm"
           onClick={() => seekToFrame(currentFrame + 1)}
           className="h-8 w-8 border-gray-800 bg-gray-950 p-0 text-gray-300 hover:bg-gray-900"
-          title="Next frame (→)"
+          title={i18n.t("Next frame (→)")}
         >
           <SkipForward className="h-3.5 w-3.5" />
         </Button>
@@ -379,7 +378,7 @@ const EpisodeViewer: React.FC<EpisodeViewerProps> = ({ repoId, detail, onNavigat
           value={currentFrame}
           onChange={(e) => seekToFrame(Number(e.target.value))}
           className="mx-2 h-1 flex-1 cursor-pointer appearance-none rounded bg-gray-800 accent-orange-500"
-          aria-label="Scrub episode"
+          aria-label={i18n.t("Scrub episode")}
         />
 
         <span className="w-28 text-right text-xs tabular-nums text-gray-400">
@@ -415,7 +414,7 @@ const EpisodeViewer: React.FC<EpisodeViewerProps> = ({ repoId, detail, onNavigat
           Previous
         </Button>
         <span className="text-xs text-gray-500">
-          Episode {detail.episode_index} of {detail.total_episodes}
+          {i18n.t("Episode")} {detail.episode_index} of {detail.total_episodes}
         </span>
         <Button
           variant="outline"
@@ -424,8 +423,7 @@ const EpisodeViewer: React.FC<EpisodeViewerProps> = ({ repoId, detail, onNavigat
           onClick={() => detail.next_episode !== null && onNavigate(detail.next_episode)}
           className="h-7 gap-1 border-gray-800 bg-gray-950 text-xs text-gray-300 hover:bg-gray-900 disabled:opacity-40"
         >
-          Next
-          <ChevronRight className="h-3.5 w-3.5" />
+          {i18n.t("Next")} <ChevronRight className="h-3.5 w-3.5" />
         </Button>
       </div>
     </div>

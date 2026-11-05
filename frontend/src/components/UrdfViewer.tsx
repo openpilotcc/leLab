@@ -1,3 +1,4 @@
+import i18n from "@/i18n";
 import React, {
   useEffect,
   useRef,
@@ -299,7 +300,7 @@ const UrdfViewer: React.FC = () => {
                 isWebSocketConnected ? "bg-green-400" : "bg-red-400"
               }`}
             />
-            {isWebSocketConnected ? "Live Robot Data" : "Disconnected"}
+            {isWebSocketConnected ? i18n.t("Live Robot Data") : "Disconnected"}
           </div>
         </div>
       )}

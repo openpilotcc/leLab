@@ -1,3 +1,4 @@
+import i18n from "@/i18n";
 import { useState } from "react";
 import { Loader2, Copy, Sparkles, ChevronRight } from "lucide-react";
 import {
@@ -36,20 +37,20 @@ const UpdateNotice = () => {
   const behind =
     typeof status.commits_behind === "number" && status.commits_behind > 0
       ? `${status.commits_behind} commit${status.commits_behind === 1 ? "" : "s"} behind`
-      : "A new version is available";
+      : i18n.t("A new version is available");
 
   const copyCommand = async () => {
     if (!status.update_command) return;
     try {
       await navigator.clipboard.writeText(status.update_command);
       toast({
-        title: "Copied",
-        description: "Update command copied to clipboard.",
+        title: i18n.t("Copied"),
+        description: i18n.t("Update command copied to clipboard."),
       });
     } catch {
       toast({
-        title: "Copy failed",
-        description: "Select and copy the command manually.",
+        title: i18n.t("Copy failed"),
+        description: i18n.t("Select and copy the command manually."),
         variant: "destructive",
       });
     }
@@ -70,14 +71,14 @@ const UpdateNotice = () => {
       } else {
         setOutput(body.output || body.message);
         toast({
-          title: "Update failed",
+          title: i18n.t("Update failed"),
           description: body.message,
           variant: "destructive",
         });
       }
     } catch (e) {
       toast({
-        title: "Update failed",
+        title: i18n.t("Update failed"),
         description: e instanceof Error ? e.message : String(e),
         variant: "destructive",
       });
@@ -100,13 +101,11 @@ const UpdateNotice = () => {
         <DialogHeader>
           <DialogTitle className="flex items-center gap-3 text-white">
             <Sparkles className="w-5 h-5 text-amber-400" />
-            LeLab update available
-          </DialogTitle>
+            {i18n.t("LeLab update available")}</DialogTitle>
           <DialogDescription className="text-slate-300">
             You're {behind} 😱.
             <br />
-            Update to get the latest fixes and features 🤗.
-            {status.compare_url && (
+            {i18n.t("Update to get the latest fixes and features 🤗.")} {status.compare_url && (
               <>
                 {" "}
                 <a
@@ -115,8 +114,7 @@ const UpdateNotice = () => {
                   rel="noreferrer"
                   className="text-sky-300 underline hover:text-sky-200"
                 >
-                  See what changed
-                </a>
+                  {i18n.t("See what changed")}</a>
                 .
               </>
             )}
@@ -127,8 +125,7 @@ const UpdateNotice = () => {
           <Collapsible>
             <CollapsibleTrigger className="group flex items-center gap-1.5 text-xs font-medium text-slate-300 hover:text-white transition-colors">
               <ChevronRight className="w-3.5 h-3.5 transition-transform group-data-[state=open]:rotate-90" />
-              Or update manually
-            </CollapsibleTrigger>
+              {i18n.t("Or update manually")}</CollapsibleTrigger>
             <CollapsibleContent className="pt-2">
               <div className="flex items-start gap-2">
                 <code className="min-w-0 flex-1 px-2 py-1.5 rounded bg-slate-900 text-sky-300 text-xs break-all whitespace-pre-wrap">
@@ -138,7 +135,7 @@ const UpdateNotice = () => {
                   variant="outline"
                   size="icon"
                   onClick={copyCommand}
-                  title="Copy command"
+                  title={i18n.t("Copy command")}
                   className="shrink-0 bg-slate-900 border-slate-600 text-white hover:bg-slate-700"
                 >
                   <Copy className="w-4 h-4" />
@@ -176,10 +173,9 @@ const UpdateNotice = () => {
                   {updating ? (
                     <>
                       <Loader2 className="w-4 h-4 mr-2 animate-spin" />
-                      Updating…
-                    </>
+                      {i18n.t("Updating…")}</>
                   ) : (
-                    "Update now"
+                    i18n.t("Update now")
                   )}
                 </Button>
               )}

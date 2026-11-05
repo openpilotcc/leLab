@@ -1,3 +1,4 @@
+import i18n from "@/i18n";
 import React, { useEffect, useRef } from "react";
 import { Pencil } from "lucide-react";
 import { EpisodeSummary, formatDuration } from "@/lib/datasetApi";
@@ -23,8 +24,7 @@ const EpisodeList: React.FC<EpisodeListProps> = ({ episodes, selected, onSelect,
   if (episodes.length === 0) {
     return (
       <div className="rounded-lg border border-gray-800 bg-gray-950 p-4 text-xs text-gray-500">
-        No episodes in this dataset.
-      </div>
+        {i18n.t("No episodes in this dataset.")}</div>
     );
   }
 
@@ -32,8 +32,7 @@ const EpisodeList: React.FC<EpisodeListProps> = ({ episodes, selected, onSelect,
     <div className="overflow-hidden rounded-lg border border-gray-800 bg-gray-950">
       <div className="flex items-center justify-between border-b border-gray-800 px-3 py-2">
         <span className="text-[11px] font-medium uppercase tracking-wider text-gray-500">
-          Episodes
-        </span>
+          {i18n.t("Episodes")}</span>
         <span className="text-[11px] tabular-nums text-gray-600">{episodes.length}</span>
       </div>
       {/* Tailwind arbitrary values take underscores where the CSS needs spaces:

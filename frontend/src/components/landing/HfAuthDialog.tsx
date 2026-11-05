@@ -1,3 +1,4 @@
+import i18n from "@/i18n";
 import React, { useState } from "react";
 import { Check, Copy, RefreshCw } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -30,7 +31,7 @@ const HfAuthDialog: React.FC<HfAuthDialogProps> = ({ open, onOpenChange }) => {
       setCopied(true);
       setTimeout(() => setCopied(false), 1500);
     } catch (err) {
-      console.warn("Clipboard write failed:", err);
+      console.warn(i18n.t("Clipboard write failed:"), err);
     }
   };
 
@@ -48,12 +49,9 @@ const HfAuthDialog: React.FC<HfAuthDialogProps> = ({ open, onOpenChange }) => {
       <DialogContent className="bg-gray-900 border-gray-800 text-white">
         <DialogHeader>
           <DialogTitle className="text-amber-200">
-            Hugging Face CLI not configured
-          </DialogTitle>
+            {i18n.t("Hugging Face CLI not configured")}</DialogTitle>
           <DialogDescription className="text-gray-400">
-            Uploads, training, and replay-from-Hub require a logged-in HF CLI.
-            Run this in a terminal:
-          </DialogDescription>
+            {i18n.t("Uploads, training, and replay-from-Hub require a logged-in HF CLI. Run this in a terminal:")}</DialogDescription>
         </DialogHeader>
         <pre className="bg-gray-950 p-3 rounded border border-gray-700 text-xs sm:text-sm overflow-x-auto flex items-center justify-between gap-2">
           <code className="text-green-400">{auth.loginCommand}</code>
@@ -61,7 +59,7 @@ const HfAuthDialog: React.FC<HfAuthDialogProps> = ({ open, onOpenChange }) => {
             type="button"
             onClick={handleCopy}
             className="flex-shrink-0 text-gray-400 hover:text-gray-200 transition-colors"
-            aria-label="Copy command"
+            aria-label={i18n.t("Copy command")}
           >
             {copied ? (
               <Check className="w-4 h-4 text-green-400" />
@@ -80,8 +78,7 @@ const HfAuthDialog: React.FC<HfAuthDialogProps> = ({ open, onOpenChange }) => {
           <RefreshCw
             className={`w-4 h-4 mr-2 ${refetching ? "animate-spin" : ""}`}
           />
-          I've logged in — recheck
-        </Button>
+          {i18n.t("I've logged in — recheck")}</Button>
       </DialogContent>
     </Dialog>
   );

@@ -1,3 +1,4 @@
+import i18n from "@/i18n";
 import React, { useState, useEffect, useCallback, useRef, useMemo } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import { Button } from "@/components/ui/button";
@@ -160,8 +161,8 @@ const Recording = () => {
   useEffect(() => {
     if (!recordingConfig) {
       toast({
-        title: "No Configuration",
-        description: "Please start recording from the main page.",
+        title: i18n.t("No Configuration"),
+        description: i18n.t("Please start recording from the main page."),
         variant: "destructive",
       });
       navigate("/");
@@ -255,11 +256,11 @@ const Recording = () => {
           if (status.current_phase === "error") {
             const saved = status.saved_episodes || 0;
             toast({
-              title: saved > 0 ? "Recording Interrupted" : "Recording Failed",
+              title: saved > 0 ? i18n.t("Recording Interrupted") : i18n.t("Recording Failed"),
               description:
                 saved > 0
-                  ? `${saved} episode(s) were saved before the session failed: ${status.error || "unknown error"}`
-                  : status.error || "The recording session failed to start.",
+                  ? `${saved} episode(s) were saved before the session failed: ${status.error || i18n.t("unknown error")}`
+                  : status.error || i18n.t("The recording session failed to start."),
               variant: "destructive",
             });
             if (saved === 0) {
@@ -345,7 +346,7 @@ const Recording = () => {
       // session driving the arm with nothing left to shut it down.
       setLeaving(false);
       setLeaveError(
-        "Could not confirm the session was stopped — it may still be recording. Try again."
+        i18n.t("Could not confirm the session was stopped — it may still be recording. Try again.")
       );
     }
   }, [baseUrl, fetchWithHeaders, navigate]);
@@ -393,7 +394,7 @@ const Recording = () => {
       setStartupError(null);
       setRecordingSessionStarted(true);
       toast({
-        title: "Recording Started",
+        title: i18n.t("Recording Started"),
         description: `Started recording ${recordingConfig.num_episodes} episodes`,
       });
       return;
@@ -401,7 +402,7 @@ const Recording = () => {
 
     if (confirmedNotStarted) {
       toast({
-        title: "Error Starting Recording",
+        title: i18n.t("Error Starting Recording"),
         description: data?.message || "Failed to start recording session.",
         variant: "destructive",
       });
@@ -415,8 +416,8 @@ const Recording = () => {
     // through the same stop-then-leave path a manual cancel uses, so
     // /stop-recording gets sent before this screen gives up on it.
     toast({
-      title: "Connection Error",
-      description: "Could not confirm whether recording started. Making sure nothing was left running…",
+      title: i18n.t("Connection Error"),
+      description: i18n.t("Could not confirm whether recording started. Making sure nothing was left running…"),
       variant: "destructive",
     });
     leavingRef.current = true;
@@ -445,7 +446,7 @@ const Recording = () => {
         const data = await response.json();
         setOptimisticPhase(null);
         toast({
-          title: "Error",
+          title: i18n.t("Error"),
           description: data.message,
           variant: "destructive",
         });
@@ -453,8 +454,8 @@ const Recording = () => {
     } catch (error) {
       setOptimisticPhase(null);
       toast({
-        title: "Connection Error",
-        description: "Could not connect to the backend server.",
+        title: i18n.t("Connection Error"),
+        description: i18n.t("Could not connect to the backend server."),
         variant: "destructive",
       });
     }
@@ -480,15 +481,15 @@ const Recording = () => {
         });
       } else {
         toast({
-          title: "Error",
+          title: i18n.t("Error"),
           description: data.message,
           variant: "destructive",
         });
       }
     } catch (error) {
       toast({
-        title: "Connection Error",
-        description: "Could not connect to the backend server.",
+        title: i18n.t("Connection Error"),
+        description: i18n.t("Could not connect to the backend server."),
         variant: "destructive",
       });
     }
@@ -502,12 +503,12 @@ const Recording = () => {
       });
 
       toast({
-        title: "Stopping recording",
-        description: "Finalizing dataset…",
+        title: i18n.t("Stopping recording"),
+        description: i18n.t("Finalizing dataset…"),
       });
     } catch (error) {
       toast({
-        title: "Error",
+        title: i18n.t("Error"),
         description: "Failed to stop recording.",
         variant: "destructive",
       });
@@ -556,9 +557,9 @@ const Recording = () => {
       // back to "Stop recording" in the ⋯ menu once the backend answers.
       setLeavingSession(false);
       toast({
-        title: "Could not stop the session",
+        title: i18n.t("Could not stop the session"),
         description:
-          "The robot may still be recording. Try again, or use Stop recording from the menu.",
+          i18n.t("The robot may still be recording. Try again, or use Stop recording from the menu."),
         variant: "destructive",
       });
     }
@@ -612,10 +613,9 @@ const Recording = () => {
     return (
       <div className="min-h-screen bg-black text-white flex items-center justify-center">
         <div className="text-center">
-          <p className="text-lg">No recording configuration found.</p>
+          <p className="text-lg">{i18n.t("No recording configuration found.")}</p>
           <Button onClick={() => navigate("/")} className="mt-4">
-            Return to Home
-          </Button>
+            {i18n.t("Return to Home")}</Button>
         </div>
       </div>
     );
@@ -630,10 +630,10 @@ const Recording = () => {
           <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-red-500 mx-auto mb-4"></div>
           <p className="text-lg">
             {leaving
-              ? "Stopping session…"
+              ? i18n.t("Stopping session…")
               : recordingSessionStarted
-              ? "Connecting to recording session..."
-              : "Starting recording session..."}
+              ? i18n.t("Connecting to recording session...")
+              : i18n.t("Starting recording session...")}
           </p>
           {startupError && !leaving && (
             <p className="mt-4 text-sm text-red-400">{startupError}</p>
@@ -647,8 +647,7 @@ const Recording = () => {
             variant="outline"
             className="mt-6 border-gray-600 text-gray-300 hover:text-white disabled:opacity-50"
           >
-            Back to Home
-          </Button>
+            {i18n.t("Back to Home")}</Button>
         </div>
       </div>
     );
@@ -674,9 +673,9 @@ const Recording = () => {
 
   const getStatusText = () => {
     if (currentPhase === "recording") return `RECORDING EPISODE ${currentEpisode}`;
-    if (currentPhase === "resetting") return "RESET — GET READY";
-    if (currentPhase === "preparing") return "PREPARING SESSION";
-    return "SESSION COMPLETE";
+    if (currentPhase === "resetting") return i18n.t("RESET — GET READY");
+    if (currentPhase === "preparing") return i18n.t("PREPARING SESSION");
+    return i18n.t("SESSION COMPLETE");
   };
 
   const phaseColor =
@@ -688,9 +687,9 @@ const Recording = () => {
 
   const primaryLabel =
     currentPhase === "recording"
-      ? "End Episode"
+      ? i18n.t("End Episode")
       : currentPhase === "resetting"
-      ? "Start Next Episode"
+      ? i18n.t("Start Next Episode")
       : "Advance";
 
   const PrimaryIcon = currentPhase === "recording" ? SkipForward : Play;
@@ -701,8 +700,8 @@ const Recording = () => {
     currentPhase === "recording"
       ? `Episode ${currentEpisode} recording time`
       : currentPhase === "resetting"
-      ? "Reset time before next episode"
-      : "Phase time";
+      ? i18n.t("Reset time before next episode")
+      : i18n.t("Phase time");
 
   return (
     <div className="h-screen bg-black text-white p-6 flex flex-col overflow-hidden">
@@ -715,7 +714,7 @@ const Recording = () => {
             className="border-gray-500 hover:border-gray-200 text-gray-300 hover:text-white disabled:opacity-50"
           >
             <ArrowLeft className="w-4 h-4 mr-2" />
-            {leavingSession ? "Stopping…" : "Back to Home"}
+            {leavingSession ? i18n.t("Stopping…") : i18n.t("Back to Home")}
           </Button>
         </div>
 
@@ -768,8 +767,7 @@ const Recording = () => {
                     className="text-red-400 focus:bg-gray-800 focus:text-red-300"
                   >
                     <Square className="w-4 h-4 mr-2" />
-                    Stop recording
-                  </DropdownMenuItem>
+                    {i18n.t("Stop recording")}</DropdownMenuItem>
                 </DropdownMenuContent>
               </DropdownMenu>
             </div>
@@ -870,8 +868,7 @@ const Recording = () => {
 
           {currentPhase === "completed" && (
             <p className="text-center text-sm text-gray-400 mt-6">
-              Recording complete — redirecting to upload…
-            </p>
+              {i18n.t("Recording complete — redirecting to upload…")}</p>
           )}
         </div>
       </div>
@@ -879,21 +876,18 @@ const Recording = () => {
       <AlertDialog open={showStopConfirm} onOpenChange={setShowStopConfirm}>
         <AlertDialogContent className="bg-gray-900 border-gray-700 text-white">
           <AlertDialogHeader>
-            <AlertDialogTitle>Stop recording?</AlertDialogTitle>
+            <AlertDialogTitle>{i18n.t("Stop recording?")}</AlertDialogTitle>
             <AlertDialogDescription className="text-gray-400">
-              Saved episodes are kept. The session will end and you'll be taken to the upload page.
-            </AlertDialogDescription>
+              {i18n.t("Saved episodes are kept. The session will end and you'll be taken to the upload page.")}</AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>
             <AlertDialogCancel className="bg-gray-800 border-gray-700 text-white hover:bg-gray-700">
-              Keep recording
-            </AlertDialogCancel>
+              {i18n.t("Keep recording")}</AlertDialogCancel>
             <AlertDialogAction
               onClick={confirmStopRecording}
               className="bg-red-500 hover:bg-red-600 text-white"
             >
-              Stop
-            </AlertDialogAction>
+              {i18n.t("Stop")}</AlertDialogAction>
           </AlertDialogFooter>
         </AlertDialogContent>
       </AlertDialog>

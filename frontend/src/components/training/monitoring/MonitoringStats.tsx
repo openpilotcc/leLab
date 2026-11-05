@@ -1,3 +1,4 @@
+import i18n from "@/i18n";
 import React, { useEffect, useRef, useState } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { TrainingStatus } from '../types';
@@ -110,7 +111,7 @@ const MonitoringStats: React.FC<MonitoringStatsProps> = ({
   // "Training starting…" instead of a misleading 0/0 0% reading.
   const isStarting = trainingStatus.training_active && trainingStatus.total_steps === 0;
   const stepLabel = isStarting
-    ? 'Training starting…'
+    ? i18n.t("Training starting…")
     : `${trainingStatus.current_step.toLocaleString()} / ${trainingStatus.total_steps.toLocaleString()}`;
   const etaLabel =
     trainingStatus.eta_seconds != null ? formatTime(trainingStatus.eta_seconds) : '—';
@@ -142,7 +143,7 @@ const MonitoringStats: React.FC<MonitoringStatsProps> = ({
               style={{ width: `${progress}%` }}
             />
             <div className="absolute inset-0 flex items-center justify-center font-semibold text-white text-sm tabular-nums drop-shadow">
-              {isStarting ? 'warming up…' : `${progress.toFixed(1)}%`}
+              {isStarting ? i18n.t("warming up…") : `${progress.toFixed(1)}%`}
             </div>
           </div>
         </CardContent>
@@ -167,8 +168,7 @@ const MonitoringStats: React.FC<MonitoringStatsProps> = ({
             <div className="h-48">
               {lossHistory.length === 0 ? (
                 <div className="flex h-full items-center justify-center text-slate-500 text-sm">
-                  Waiting for first metric tick…
-                </div>
+                  {i18n.t("Waiting for first metric tick…")}</div>
               ) : (
                 <ResponsiveContainer width="100%" height="100%">
                   <LineChart
@@ -217,7 +217,7 @@ const MonitoringStats: React.FC<MonitoringStatsProps> = ({
                 <Activity className="w-4 h-4" />
               </div>
               <span>
-                Learning Rate{' '}
+                {i18n.t("Learning Rate")}{' '}
                 <span className="text-slate-400 text-sm font-normal">
                   ({trainingStatus.current_lr?.toExponential(2) ?? '—'})
                 </span>
@@ -228,8 +228,7 @@ const MonitoringStats: React.FC<MonitoringStatsProps> = ({
             <div className="h-48">
               {lrHistory.length === 0 ? (
                 <div className="flex h-full items-center justify-center text-slate-500 text-sm">
-                  Waiting for first metric tick…
-                </div>
+                  {i18n.t("Waiting for first metric tick…")}</div>
               ) : (
                 <ResponsiveContainer width="100%" height="100%">
                   <LineChart

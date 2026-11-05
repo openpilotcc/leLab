@@ -1,3 +1,4 @@
+import i18n from "@/i18n";
 import { useEffect, useMemo, useState } from "react";
 import { Loader2, Plus, X } from "lucide-react";
 
@@ -84,7 +85,7 @@ export default function MergeDatasetsDialog({
       reset();
       onOpenChange(false);
     } catch (caughtError) {
-      setError(caughtError instanceof Error ? caughtError.message : "Could not merge the selected datasets.");
+      setError(caughtError instanceof Error ? caughtError.message : i18n.t("Could not merge the selected datasets."));
     } finally {
       setMerging(false);
     }
@@ -94,15 +95,13 @@ export default function MergeDatasetsDialog({
     <Dialog open={open} onOpenChange={handleOpenChange}>
       <DialogContent className="border-gray-700 bg-gray-900 text-gray-300 sm:max-w-lg">
         <DialogHeader>
-          <DialogTitle className="text-white">Merge local datasets</DialogTitle>
+          <DialogTitle className="text-white">{i18n.t("Merge local datasets")}</DialogTitle>
           <DialogDescription>
-            <code>{selectedRepoId}</code> is included. Select at least one more local dataset. Their source files stay
-            unchanged; the merged dataset is saved locally.
-          </DialogDescription>
+            <code>{selectedRepoId}</code> {i18n.t("is included. Select at least one more local dataset. Their source files stay unchanged; the merged dataset is saved locally.")}</DialogDescription>
         </DialogHeader>
 
         <div className="space-y-3">
-          <Label className="text-gray-300">Source datasets</Label>
+          <Label className="text-gray-300">{i18n.t("Source datasets")}</Label>
           <div className="max-h-52 space-y-2 overflow-y-auto rounded-md border border-gray-700 p-3">
             <p className="text-sm text-gray-200">{selectedRepoId}</p>
             {selected.slice(1).map((repoId) => (
@@ -127,15 +126,13 @@ export default function MergeDatasetsDialog({
           >
             <Button variant="outline" size="sm" disabled={merging} className="gap-1.5">
               <Plus className="h-3.5 w-3.5" />
-              Add dataset
-            </Button>
+              {i18n.t("Add dataset")}</Button>
           </DatasetPicker>
-          <p className="text-xs text-gray-500">Select at least one additional dataset.</p>
+          <p className="text-xs text-gray-500">{i18n.t("Select at least one additional dataset.")}</p>
 
           <div className="space-y-2">
             <Label htmlFor="merged-dataset-name" className="text-gray-300">
-              Merged dataset name
-            </Label>
+              {i18n.t("Merged dataset name")}</Label>
             <Input
               id="merged-dataset-name"
               value={outputName}
@@ -148,7 +145,7 @@ export default function MergeDatasetsDialog({
               className="border-gray-700 bg-gray-800 text-white"
             />
             <p className="text-xs text-gray-500">
-              Saved locally as <code>local/{outputName || "name"}</code>.
+              {i18n.t("Saved locally as")} <code>local/{outputName || "name"}</code>.
             </p>
           </div>
           {error && <p className="text-sm text-red-400">{error}</p>}
@@ -156,11 +153,10 @@ export default function MergeDatasetsDialog({
 
         <DialogFooter>
           <Button variant="outline" onClick={() => handleOpenChange(false)} disabled={merging}>
-            Cancel
-          </Button>
+            {i18n.t("Cancel")}</Button>
           <Button onClick={handleMerge} disabled={!canMerge}>
             {merging && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
-            {merging ? "Merging…" : "Merge datasets"}
+            {merging ? "Merging…" : i18n.t("Merge datasets")}
           </Button>
         </DialogFooter>
       </DialogContent>

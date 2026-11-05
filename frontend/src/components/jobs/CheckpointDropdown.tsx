@@ -1,3 +1,4 @@
+import i18n from "@/i18n";
 import React from "react";
 import {
   Select,
@@ -21,7 +22,7 @@ export const CheckpointDropdown: React.FC<Props> = ({
   selectedStep,
   onChange,
   disabled,
-  placeholder = "Select checkpoint",
+  placeholder = i18n.t("Select checkpoint"),
 }) => {
   // step 0 is the sentinel for an imported single-model checkpoint (lerobot
   // never saves at step 0), so it has no meaningful step number — show

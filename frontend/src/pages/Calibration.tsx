@@ -1,3 +1,4 @@
+import i18n from "@/i18n";
 import { useState, useEffect, useRef, useCallback } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import { Button } from "@/components/ui/button";
@@ -44,7 +45,7 @@ import { isMotorRangeComplete } from "@/lib/calibrationTargets";
 import CameraConfiguration from "@/components/recording/CameraConfiguration";
 import { CameraConfig, loadCameraConfigs, cameraConfigurationError } from "@/lib/cameraConfig";
 
-const DISCONTINUITY_ERROR_PREFIX = "Motor discontinuity detected";
+const DISCONTINUITY_ERROR_PREFIX = i18n.t("Motor discontinuity detected");
 
 interface CalibrationStatus {
   calibration_active: boolean;
@@ -111,7 +112,7 @@ const Calibration = () => {
       setRobot(r);
       return r;
     } catch (e) {
-      console.error("Failed to load robot record:", e);
+      console.error(i18n.t("Failed to load robot record:"), e);
       return null;
     }
   }, [robotName, baseUrl, fetchWithHeaders]);
@@ -138,7 +139,7 @@ const Calibration = () => {
       const loaded = loadCameraConfigs(r.cameras ?? []);
       setCameras(loaded);
       const cameraError = cameraConfigurationError(loaded);
-      if (cameraError) toast({ title: "Invalid camera rotation", description: cameraError, variant: "destructive" });
+      if (cameraError) toast({ title: i18n.t("Invalid camera rotation"), description: cameraError, variant: "destructive" });
     })();
     return () => {
       cancelled = true;
@@ -242,16 +243,16 @@ const Calibration = () => {
   const handleStartCalibration = async () => {
     if (!robotName) {
       toast({
-        title: "No robot selected",
-        description: "Open Calibration from a robot's gear icon on the Landing page.",
+        title: i18n.t("No robot selected"),
+        description: i18n.t("Open Calibration from a robot's gear icon on the Landing page."),
         variant: "destructive",
       });
       return;
     }
     if (!port) {
       toast({
-        title: "Missing port",
-        description: "Set the device's serial port before starting.",
+        title: i18n.t("Missing port"),
+        description: i18n.t("Set the device's serial port before starting."),
         variant: "destructive",
       });
       return;
@@ -279,15 +280,15 @@ const Calibration = () => {
 
       if (result.success) {
         toast({
-          title: "Calibration Started",
+          title: i18n.t("Calibration Started"),
           description: `Calibration started for ${deviceType}`,
         });
         setIsPolling(true);
       } else {
         calibrationActiveRef.current = false;
         toast({
-          title: "Calibration Failed",
-          description: result.message || "Failed to start calibration",
+          title: i18n.t("Calibration Failed"),
+          description: result.message || i18n.t("Failed to start calibration"),
           variant: "destructive",
         });
       }
@@ -295,8 +296,8 @@ const Calibration = () => {
       calibrationActiveRef.current = false;
       console.error("Error starting calibration:", error);
       toast({
-        title: "Error",
-        description: "Failed to start calibration",
+        title: i18n.t("Error"),
+        description: i18n.t("Failed to start calibration"),
         variant: "destructive",
       });
     }
@@ -313,21 +314,21 @@ const Calibration = () => {
       if (result.success) {
         // The 200ms polling interval will pick up the stopped state.
         toast({
-          title: "Calibration Stopped",
-          description: "Calibration has been stopped",
+          title: i18n.t("Calibration Stopped"),
+          description: i18n.t("Calibration has been stopped"),
         });
       } else {
         toast({
-          title: "Error",
-          description: result.message || "Failed to stop calibration",
+          title: i18n.t("Error"),
+          description: result.message || i18n.t("Failed to stop calibration"),
           variant: "destructive",
         });
       }
     } catch (error) {
       console.error("Error stopping calibration:", error);
       toast({
-        title: "Error",
-        description: "Failed to stop calibration",
+        title: i18n.t("Error"),
+        description: i18n.t("Failed to stop calibration"),
         variant: "destructive",
       });
     }
@@ -346,21 +347,21 @@ const Calibration = () => {
 
       if (data.success) {
         toast({
-          title: "Step Completed",
+          title: i18n.t("Step Completed"),
           description: data.message,
         });
       } else {
         toast({
-          title: "Step Failed",
-          description: data.message || "Could not complete step",
+          title: i18n.t("Step Failed"),
+          description: data.message || i18n.t("Could not complete step"),
           variant: "destructive",
         });
       }
     } catch (error) {
       console.error("Error completing step:", error);
       toast({
-        title: "Error",
-        description: "Could not complete calibration step",
+        title: i18n.t("Error"),
+        description: i18n.t("Could not complete calibration step"),
         variant: "destructive",
       });
     }
@@ -476,12 +477,12 @@ const Calibration = () => {
         // A 200 without a record means the backend skipped the write.
         if (!data?.robot) throw new Error(`HTTP ${res.status}, no robot record`);
         setRobot(data.robot);
-        toast({ title: "Port saved", description: nextPort });
+        toast({ title: i18n.t("Port saved"), description: nextPort });
       } catch (e) {
-        console.error("Failed to save port to robot record:", e);
+        console.error(i18n.t("Failed to save port to robot record:"), e);
         toast({
-          title: "Failed to save port",
-          description: "Could not save the port to this robot.",
+          title: i18n.t("Failed to save port"),
+          description: i18n.t("Could not save the port to this robot."),
           variant: "destructive",
         });
       }
@@ -531,12 +532,12 @@ const Calibration = () => {
       if (!res.ok || !data.robot) throw new Error(data.message || `HTTP ${res.status}`);
       setRobot(data.robot);
       toast({
-        title: "Calibration linked",
+        title: i18n.t("Calibration linked"),
         description: `${deviceType === "robot" ? "Follower" : "Leader"} now uses ${filename}.`,
       });
     } catch (e) {
       toast({
-        title: "Could not link calibration",
+        title: i18n.t("Could not link calibration"),
         description: e instanceof Error ? e.message : String(e),
         variant: "destructive",
       });
@@ -566,7 +567,7 @@ const Calibration = () => {
         return {
           color: "bg-purple-500",
           icon: <Activity className="w-4 h-4" />,
-          text: "Recording Ranges",
+          text: i18n.t("Recording Ranges"),
         };
       case "completed":
         return {
@@ -578,7 +579,7 @@ const Calibration = () => {
         return {
           color: "bg-red-500",
           icon: <XCircle className="w-4 h-4" />,
-          text: "Error",
+          text: i18n.t("Error"),
         };
       case "stopping":
         return {
@@ -590,7 +591,7 @@ const Calibration = () => {
         return {
           color: "bg-slate-500",
           icon: <Settings className="w-4 h-4" />,
-          text: "Unknown",
+          text: i18n.t("Unknown"),
         };
     }
   };
@@ -612,7 +613,7 @@ const Calibration = () => {
           <div className="flex items-center gap-3">
             <Logo iconOnly />
             <h1 className="text-3xl font-bold">
-              {robotName ? `Calibrate "${robotName}"` : "Device Calibration"}
+              {robotName ? `Calibrate "${robotName}"` : i18n.t("Device Calibration")}
             </h1>
           </div>
         </div>
@@ -621,10 +622,7 @@ const Calibration = () => {
           <Alert className="mb-6 bg-amber-900/40 border-amber-700 text-amber-100">
             <AlertCircle className="h-4 w-4" />
             <AlertDescription>
-              Open Calibration from a robot's gear icon on the Landing page.
-              Each robot has its own calibration; running this page directly is
-              not supported.
-            </AlertDescription>
+              {i18n.t("Open Calibration from a robot's gear icon on the Landing page. Each robot has its own calibration; running this page directly is not supported.")}</AlertDescription>
           </Alert>
         )}
 
@@ -633,8 +631,7 @@ const Calibration = () => {
             <CardHeader>
               <CardTitle className="flex items-center gap-2 text-slate-200">
                 <Settings className="w-5 h-5 text-blue-400" />
-                Configuration
-              </CardTitle>
+                {i18n.t("Configuration")}</CardTitle>
             </CardHeader>
             <CardContent className="space-y-6">
               <div className="space-y-2">
@@ -642,22 +639,19 @@ const Calibration = () => {
                   htmlFor="deviceType"
                   className="text-sm font-medium text-slate-300"
                 >
-                  Device Type *
-                </Label>
+                  {i18n.t("Device Type *")}</Label>
                 <Select
                   value={deviceType}
                   onValueChange={handleDeviceTypeChange}
                 >
                   <SelectTrigger className="bg-slate-700 border-slate-600 text-white rounded-md">
-                    <SelectValue placeholder="Select device type" />
+                    <SelectValue placeholder={i18n.t("Select device type")} />
                   </SelectTrigger>
                   <SelectContent className="bg-slate-800 border-slate-700 text-white">
                     <SelectItem value="teleop" className="hover:bg-slate-700">
-                      Teleoperator (Leader)
-                    </SelectItem>
+                      {i18n.t("Teleoperator (Leader)")}</SelectItem>
                     <SelectItem value="robot" className="hover:bg-slate-700">
-                      Robot (Follower)
-                    </SelectItem>
+                      {i18n.t("Robot (Follower)")}</SelectItem>
                   </SelectContent>
                 </Select>
               </div>
@@ -667,8 +661,7 @@ const Calibration = () => {
                   htmlFor="port"
                   className="text-sm font-medium text-slate-300"
                 >
-                  Port *
-                </Label>
+                  {i18n.t("Port *")}</Label>
                 <div className="flex gap-2">
                   <Input
                     id="port"
@@ -697,8 +690,7 @@ const Calibration = () => {
                     data-tour="calibration-start"
                   >
                     <Play className="w-5 h-5 mr-2" />
-                    Start Calibration
-                  </Button>
+                    {i18n.t("Start Calibration")}</Button>
                 ) : (
                   <Button
                     onClick={handleStopCalibration}
@@ -706,21 +698,17 @@ const Calibration = () => {
                     className="w-full rounded-full py-6 text-lg"
                   >
                     <Square className="w-5 h-5 mr-2" />
-                    Cancel Calibration
-                  </Button>
+                    {i18n.t("Cancel Calibration")}</Button>
                 )}
                 {!calibrationStatus.calibration_active &&
                   existingConfigs.length > 0 && (
                     <Collapsible>
                       <CollapsibleTrigger className="group flex items-center gap-1.5 text-xs font-medium text-slate-400 hover:text-white transition-colors">
                         <ChevronRight className="w-3.5 h-3.5 transition-transform group-data-[state=open]:rotate-90" />
-                        Advanced
-                      </CollapsibleTrigger>
+                        {i18n.t("Advanced")}</CollapsibleTrigger>
                       <CollapsibleContent className="pt-2 space-y-2">
                         <p className="text-xs text-slate-400">
-                          Links a calibration file already on this computer to
-                          this arm, so you do not have to calibrate again.
-                        </p>
+                          {i18n.t("Links a calibration file already on this computer to this arm, so you do not have to calibrate again.")}</p>
                         <Select
                           value={
                             robot && existingConfigs.includes(robot[configField])
@@ -731,10 +719,10 @@ const Calibration = () => {
                           disabled={!robotName}
                         >
                           <SelectTrigger
-                            aria-label="Select an existing calibration file"
+                            aria-label={i18n.t("Select an existing calibration file")}
                             className="bg-slate-700 border-slate-600 text-white rounded-md"
                           >
-                            <SelectValue placeholder="Select an existing calibration file" />
+                            <SelectValue placeholder={i18n.t("Select an existing calibration file")} />
                           </SelectTrigger>
                           <SelectContent className="bg-slate-800 border-slate-700 text-white">
                             {existingConfigs.map((file) => (
@@ -752,8 +740,7 @@ const Calibration = () => {
               {robot && (
                 <div className="space-y-2 pt-2">
                   <div className="text-sm font-medium text-slate-300">
-                    Robot calibration
-                  </div>
+                    {i18n.t("Robot calibration")}</div>
                   <div className="flex items-center gap-2 text-sm">
                     {robot.leader_config ? (
                       <CheckCircle className="w-4 h-4 text-green-400" />
@@ -765,8 +752,7 @@ const Calibration = () => {
                         robot.leader_config ? "text-slate-200" : "text-slate-400"
                       }
                     >
-                      Leader (Teleoperator)
-                      {robot.leader_config && (
+                      {i18n.t("Leader (Teleoperator)")} {robot.leader_config && (
                         <span className="text-slate-500"> · {robot.leader_config}</span>
                       )}
                     </span>
@@ -784,8 +770,7 @@ const Calibration = () => {
                           : "text-slate-400"
                       }
                     >
-                      Follower (Robot)
-                      {robot.follower_config && (
+                      {i18n.t("Follower (Robot)")} {robot.follower_config && (
                         <span className="text-slate-500"> · {robot.follower_config}</span>
                       )}
                     </span>
@@ -819,8 +804,7 @@ const Calibration = () => {
                     <div className="flex items-center gap-2">
                       <Activity className="w-4 h-4 text-purple-400" />
                       <span className="text-sm font-medium text-slate-300">
-                        Live Position Data
-                      </span>
+                        {i18n.t("Live Position Data")}</span>
                     </div>
                     <div className="bg-slate-800 rounded-lg p-4 border border-slate-700">
                       <div className="space-y-3">
@@ -848,7 +832,7 @@ const Calibration = () => {
                                     {rangeComplete && (
                                       <CheckCircle
                                         className="w-4 h-4 text-green-400"
-                                        aria-label="Range complete"
+                                        aria-label={i18n.t("Range complete")}
                                       />
                                     )}
                                   </div>
@@ -896,8 +880,7 @@ const Calibration = () => {
                 <Alert className="bg-yellow-900/50 border-yellow-700 text-yellow-200">
                   <AlertCircle className="h-4 w-4" />
                   <AlertDescription>
-                    Connecting to the device. Please ensure it's connected.
-                  </AlertDescription>
+                    {i18n.t("Connecting to the device. Please ensure it's connected.")}</AlertDescription>
                 </Alert>
               )}
 
@@ -930,16 +913,12 @@ const Calibration = () => {
                         ) : (
                           <AlertCircle className="w-4 h-4 mr-2" />
                         )}
-                        Save Calibration
-                      </Button>
+                        {i18n.t("Save Calibration")}</Button>
                     </div>
                     <Alert className="bg-purple-900/50 border-purple-700 text-purple-200">
                       <Activity className="h-4 w-4" />
                       <AlertDescription>
-                        <strong>Important:</strong> Move EACH joint through its
-                        full range. A check appears next to each joint once its
-                        range is wide enough.
-                      </AlertDescription>
+                        <strong>Important:</strong> {i18n.t("Move EACH joint through its full range. A check appears next to each joint once its range is wide enough.")}</AlertDescription>
                     </Alert>
                   </div>
                 );
@@ -949,8 +928,7 @@ const Calibration = () => {
                 <Alert className="bg-green-900/50 border-green-700 text-green-200">
                   <CheckCircle className="h-4 w-4" />
                   <AlertDescription>
-                    Calibration completed successfully!
-                  </AlertDescription>
+                    {i18n.t("Calibration completed successfully!")}</AlertDescription>
                 </Alert>
               )}
 
@@ -963,14 +941,9 @@ const Calibration = () => {
                     <XCircle className="h-4 w-4" />
                     <AlertDescription>
                       <div className="font-semibold text-base mb-1">
-                        Motor discontinuity detected
-                      </div>
+                        {i18n.t("Motor discontinuity detected")}</div>
                       <div>
-                        Make sure to start the calibration with the robot in a
-                        middle position — all joints in the middle of their
-                        ranges. See the calibration demo below for the correct
-                        starting pose.
-                      </div>
+                        {i18n.t("Make sure to start the calibration with the robot in a middle position — all joints in the middle of their ranges. See the calibration demo below for the correct starting pose.")}</div>
                     </AlertDescription>
                   </Alert>
                 ) : (
@@ -1009,8 +982,7 @@ const Calibration = () => {
                         target="_blank"
                         rel="noopener noreferrer"
                       >
-                        Click here to view the calibration video
-                      </a>
+                        {i18n.t("Click here to view the calibration video")}</a>
                     </p>
                   </video>
                 </div>
@@ -1027,21 +999,20 @@ const Calibration = () => {
             <CardHeader className="flex-row items-center justify-between space-y-0">
               <CardTitle className="flex items-center gap-2 text-slate-200">
                 <Settings className="w-5 h-5 text-blue-400" />
-                Attached cameras
-              </CardTitle>
+                {i18n.t("Attached cameras")}</CardTitle>
               <div className="flex items-center gap-2">
                 <Label
                   htmlFor="cameras-toggle"
                   className="text-sm text-slate-400 cursor-pointer"
                 >
-                  {camerasActive ? "On" : "Off"}
+                  {camerasActive ? "On" : i18n.t("Off")}
                 </Label>
                 <Switch
                   id="cameras-toggle"
                   checked={camerasActive}
                   onCheckedChange={setCamerasActive}
                   className="data-[state=checked]:bg-green-500"
-                  aria-label="Turn cameras on or off"
+                  aria-label={i18n.t("Turn cameras on or off")}
                 />
               </div>
             </CardHeader>
@@ -1055,7 +1026,7 @@ const Calibration = () => {
                 <div className="rounded-lg border border-slate-700 bg-slate-900/40 p-6 text-center space-y-3">
                   <Camera className="w-10 h-10 mx-auto text-slate-500" />
                   <div className="space-y-1">
-                    <p className="text-slate-200 font-medium">Cameras are off</p>
+                    <p className="text-slate-200 font-medium">{i18n.t("Cameras are off")}</p>
                     <p className="text-sm text-slate-400 max-w-md mx-auto">
                       Turn cameras on to scan for connected devices and preview
                       them. The browser may briefly open a camera to read device
@@ -1066,14 +1037,12 @@ const Calibration = () => {
                     {cameras.length > 0 && (
                       <p className="text-xs text-slate-500 pt-1">
                         {cameras.length} camera
-                        {cameras.length === 1 ? "" : "s"} saved to this robot.
-                      </p>
+                        {cameras.length === 1 ? "" : "s"} {i18n.t("saved to this robot.")}</p>
                     )}
                   </div>
                   <p className="flex items-center justify-center gap-1.5 text-xs text-slate-500">
                     <ShieldQuestion className="w-3.5 h-3.5" />
-                    You'll be asked to grant camera access.
-                  </p>
+                    {i18n.t("You'll be asked to grant camera access.")}</p>
                 </div>
               )}
             </CardContent>

@@ -1,3 +1,4 @@
+import i18n from "@/i18n";
 import React from "react";
 import { Button } from "@/components/ui/button";
 import { useToast } from "@/hooks/use-toast";
@@ -28,9 +29,9 @@ interface InstallProgressProps {
 export function installTitle(state: InstallState, idleTitle: string): string {
   switch (state) {
     case "done":
-      return "Install Complete";
+      return i18n.t("Install Complete");
     case "error":
-      return "Install Failed";
+      return i18n.t("Install Failed");
     case "installing":
       return "Installing…";
     default:
@@ -63,11 +64,11 @@ export const InstallProgress: React.FC<InstallProgressProps> = ({
   const handleCopy = async () => {
     try {
       await navigator.clipboard.writeText(installHint);
-      toast({ title: "Copied", description: installHint });
+      toast({ title: i18n.t("Copied"), description: installHint });
     } catch {
       toast({
-        title: "Copy failed",
-        description: "Select the command and copy manually.",
+        title: i18n.t("Copy failed"),
+        description: i18n.t("Select the command and copy manually."),
         variant: "destructive",
       });
     }
@@ -87,7 +88,7 @@ export const InstallProgress: React.FC<InstallProgressProps> = ({
               size="icon"
               onClick={handleCopy}
               className="text-slate-400 hover:text-white"
-              aria-label="Copy install command"
+              aria-label={i18n.t("Copy install command")}
             >
               <Copy className="w-4 h-4" />
             </Button>
@@ -96,8 +97,7 @@ export const InstallProgress: React.FC<InstallProgressProps> = ({
             onClick={onInstall}
             className="bg-green-500 hover:bg-green-600 text-white font-semibold"
           >
-            Install Now
-          </Button>
+            {i18n.t("Install Now")}</Button>
         </>
       )}
 
@@ -117,13 +117,12 @@ export const InstallProgress: React.FC<InstallProgressProps> = ({
 
       {state === "error" && (
         <>
-          <p className="text-red-300">{error || "Install failed."}</p>
+          <p className="text-red-300">{error || i18n.t("Install failed.")}</p>
           <Button
             onClick={onRetry}
             className="bg-slate-700 hover:bg-slate-600 text-white"
           >
-            Try again
-          </Button>
+            {i18n.t("Try again")}</Button>
         </>
       )}
 
@@ -146,11 +145,11 @@ export const RestartInstructions: React.FC<{ purpose: string }> = ({
 }) => (
   <>
     <p>
-      Install complete. Restart{" "}
+      {i18n.t("Install complete. Restart")}{" "}
       <code className="px-1 py-0.5 rounded bg-slate-900 text-sky-300">
         lelab
       </code>{" "}
-      to enable {purpose}:
+      {i18n.t("to enable")} {purpose}:
     </p>
     <ol className="list-decimal list-inside space-y-2 pl-1">
       <li>
@@ -158,14 +157,14 @@ export const RestartInstructions: React.FC<{ purpose: string }> = ({
         <kbd className="px-1.5 py-0.5 rounded bg-slate-900 border border-slate-600 text-xs font-mono text-slate-200">
           Ctrl+C
         </kbd>{" "}
-        in the terminal running{" "}
+        {i18n.t("in the terminal running")}{" "}
         <code className="px-1 py-0.5 rounded bg-slate-900 text-sky-300">
           lelab
         </code>
         .
       </li>
       <li>
-        Run{" "}
+        {i18n.t("Run")}{" "}
         <code className="px-1 py-0.5 rounded bg-slate-900 text-sky-300">
           lelab
         </code>{" "}

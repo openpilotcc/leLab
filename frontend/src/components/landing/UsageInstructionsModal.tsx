@@ -1,3 +1,4 @@
+import i18n from "@/i18n";
 import React, { useState } from "react";
 import {
   Dialog,
@@ -36,7 +37,7 @@ const UsageInstructionsModal: React.FC<UsageInstructionsModalProps> = ({
       setCopied(true);
       setTimeout(() => setCopied(false), 1500);
     } catch (err) {
-      console.warn("Clipboard write failed:", err);
+      console.warn(i18n.t("Clipboard write failed:"), err);
     }
   };
 
@@ -55,18 +56,15 @@ const UsageInstructionsModal: React.FC<UsageInstructionsModalProps> = ({
         <DialogHeader className="text-center sm:text-center min-w-0">
           <DialogTitle className="text-white flex items-center justify-center gap-2 text-xl">
             <Terminal className="w-6 h-6" />
-            Get Started with LeLab
-          </DialogTitle>
+            {i18n.t("Get Started with LeLab")}</DialogTitle>
           <DialogDescription>
-            LeLab runs on your machine. Click the command to copy it, then paste
-            in a terminal:
-          </DialogDescription>
+            {i18n.t("LeLab runs on your machine. Click the command to copy it, then paste in a terminal:")}</DialogDescription>
         </DialogHeader>
         <div className="space-y-4 py-2 min-w-0">
           <button
             type="button"
             onClick={handleCopy}
-            aria-label="Copy command to clipboard"
+            aria-label={i18n.t("Copy command to clipboard")}
             className="group relative w-full bg-gray-800 hover:bg-gray-750 rounded-lg border border-gray-700 hover:border-gray-600 text-left transition-colors cursor-pointer"
           >
             <pre className="p-4 pr-12 text-xs sm:text-sm overflow-x-auto whitespace-pre-wrap break-all">
@@ -76,8 +74,7 @@ const UsageInstructionsModal: React.FC<UsageInstructionsModalProps> = ({
               {copied ? (
                 <>
                   <Check className="w-3.5 h-3.5 text-green-400" />
-                  Copied
-                </>
+                  {i18n.t("Copied")}</>
               ) : (
                 <>
                   <Copy className="w-3.5 h-3.5" />
@@ -87,16 +84,14 @@ const UsageInstructionsModal: React.FC<UsageInstructionsModalProps> = ({
             </span>
           </button>
           <p className="text-gray-400 text-sm text-center">
-            After running, your browser will open the local LeLab app.
-          </p>
+            {i18n.t("After running, your browser will open the local LeLab app.")}</p>
           <Button
             asChild
             className="w-full bg-blue-600 hover:bg-blue-700 text-white"
           >
             <a href={LOCAL_URL} target="_blank" rel="noopener noreferrer">
               <ExternalLink className="w-4 h-4 mr-2" />
-              Open LeLab
-            </a>
+              {i18n.t("Open LeLab")}</a>
           </Button>
         </div>
       </DialogContent>

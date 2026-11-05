@@ -1,3 +1,4 @@
+import i18n from "@/i18n";
 import React, { useState } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
@@ -55,11 +56,11 @@ const EssentialsCard: React.FC<EssentialsCardProps> = ({ config, updateConfig, d
   return (
     <Card className="bg-slate-800/50 border-slate-700 rounded-xl">
       <CardHeader>
-        <CardTitle className="text-white">Run Configuration</CardTitle>
+        <CardTitle className="text-white">{i18n.t("Run Configuration")}</CardTitle>
       </CardHeader>
       <CardContent className="space-y-6">
         <div>
-          <Label className="text-slate-300">Dataset Repository ID *</Label>
+          <Label className="text-slate-300">{i18n.t("Dataset Repository ID *")}</Label>
           <div className="mt-1">
             <DatasetCombobox
               datasets={datasets}
@@ -71,15 +72,13 @@ const EssentialsCard: React.FC<EssentialsCardProps> = ({ config, updateConfig, d
             />
           </div>
           <p className="text-xs text-slate-500 mt-1">
-            HuggingFace Hub dataset repository ID
-          </p>
+            {i18n.t("HuggingFace Hub dataset repository ID")}</p>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div>
             <Label htmlFor="policy_type" className="text-slate-300">
-              Policy
-            </Label>
+              {i18n.t("Policy")}</Label>
             <Select
               value={config.policy_type}
               onValueChange={(value) => updateConfig('policy_type', value)}
@@ -112,8 +111,7 @@ const EssentialsCard: React.FC<EssentialsCardProps> = ({ config, updateConfig, d
 
           <div>
             <Label htmlFor="steps" className="text-slate-300">
-              Training Steps
-            </Label>
+              {i18n.t("Training Steps")}</Label>
             <NumberInput
               id="steps"
               value={config.steps}
@@ -126,8 +124,7 @@ const EssentialsCard: React.FC<EssentialsCardProps> = ({ config, updateConfig, d
 
           <div>
             <Label htmlFor="batch_size" className="text-slate-300">
-              Batch Size
-            </Label>
+              {i18n.t("Batch Size")}</Label>
             <NumberInput
               id="batch_size"
               value={config.batch_size}
@@ -146,8 +143,7 @@ const EssentialsCard: React.FC<EssentialsCardProps> = ({ config, updateConfig, d
               className="data-[state=checked]:bg-green-500"
             />
             <Label htmlFor="wandb_enable" className="text-slate-300">
-              Enable Weights & Biases
-            </Label>
+              {i18n.t("Enable Weights & Biases")}</Label>
           </div>
         </div>
 
@@ -160,8 +156,7 @@ const EssentialsCard: React.FC<EssentialsCardProps> = ({ config, updateConfig, d
         {config.wandb_enable && (
           <div>
             <Label htmlFor="wandb_project" className="text-slate-300">
-              W&B Project Name
-            </Label>
+              {i18n.t("W&B Project Name")}</Label>
             <Input
               id="wandb_project"
               value={config.wandb_project || ''}

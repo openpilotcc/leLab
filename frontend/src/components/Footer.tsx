@@ -1,3 +1,4 @@
+import i18n from "@/i18n";
 import React from "react";
 import { Github, BookOpen } from "lucide-react";
 
@@ -36,7 +37,7 @@ const Footer: React.FC = () => {
     <footer className="fixed inset-x-0 bottom-0 z-30 border-t border-gray-800 bg-black/95">
       <div className="mx-auto flex max-w-7xl flex-col items-center justify-between gap-3 px-4 py-4 text-sm text-gray-400 sm:flex-row">
         <span>
-          Powered by{" "}
+          {i18n.t("Powered by")}{" "}
           <a
             href="https://github.com/huggingface/lerobot"
             target="_blank"

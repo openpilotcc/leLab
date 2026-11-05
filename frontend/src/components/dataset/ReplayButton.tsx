@@ -1,3 +1,4 @@
+import i18n from "@/i18n";
 import React, { useEffect, useRef, useState } from "react";
 import { Bot, Loader2, Square } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -59,7 +60,7 @@ const ReplayButton: React.FC<ReplayButtonProps> = ({ repoId, episodeIndex, onSta
         setPhase("idle");
         onEnd();
         if (status.error) {
-          toast({ title: "Replay failed", description: status.error, variant: "destructive" });
+          toast({ title: i18n.t("Replay failed"), description: status.error, variant: "destructive" });
         }
       } catch {
         // Keep the Stop button: the next poll retries.
@@ -73,12 +74,12 @@ const ReplayButton: React.FC<ReplayButtonProps> = ({ repoId, episodeIndex, onSta
     try {
       const res = await apiRequest<ReplayResponse>(baseUrl, fetchWithHeaders, "/stop-replay", {
         method: "POST",
-        action: "Stop",
+        action: i18n.t("Stop"),
       });
       if (!res.success) throw new Error(res.message);
     } catch (e) {
       toast({
-        title: "Could not stop the robot",
+        title: i18n.t("Could not stop the robot"),
         description: e instanceof Error ? e.message : String(e),
         variant: "destructive",
       });
@@ -95,8 +96,7 @@ const ReplayButton: React.FC<ReplayButtonProps> = ({ repoId, episodeIndex, onSta
         className="h-7 gap-1.5 border-red-900 bg-red-950/40 text-xs text-red-300 hover:bg-red-950 hover:text-red-200"
       >
         <Square className="h-3 w-3 fill-current" />
-        Stop robot
-      </Button>
+        {i18n.t("Stop robot")}</Button>
     );
   }
 
@@ -121,7 +121,7 @@ const ReplayButton: React.FC<ReplayButtonProps> = ({ repoId, episodeIndex, onSta
     } catch (e) {
       setPhase("idle");
       toast({
-        title: "Could not replay this episode",
+        title: i18n.t("Could not replay this episode"),
         description: e instanceof Error ? e.message : String(e),
         variant: "destructive",
       });
@@ -142,8 +142,7 @@ const ReplayButton: React.FC<ReplayButtonProps> = ({ repoId, episodeIndex, onSta
       ) : (
         <Bot className="h-3.5 w-3.5" />
       )}
-      Play on robot
-    </Button>
+      {i18n.t("Play on robot")}</Button>
   );
 };
 

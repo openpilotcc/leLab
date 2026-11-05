@@ -1,3 +1,4 @@
+import i18n from "@/i18n";
 import React from "react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -41,7 +42,7 @@ const HubModelCard: React.FC<Props> = ({ model }) => {
             size="icon"
             asChild
             className="h-7 w-7 text-slate-400 hover:text-white"
-            aria-label="View on Hub"
+            aria-label={i18n.t("View on Hub")}
           >
             <a
               href={url}

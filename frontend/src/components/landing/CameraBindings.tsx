@@ -1,3 +1,4 @@
+import i18n from "@/i18n";
 import React from "react";
 import { Label } from "@/components/ui/label";
 import {
@@ -54,13 +55,12 @@ const CameraBindings: React.FC<CameraBindingsProps> = ({
             onValueChange={(v) => onBind(name, Number(v))}
           >
             <SelectTrigger className="bg-gray-800 border-gray-700 text-white w-56">
-              <SelectValue placeholder="Select a camera" />
+              <SelectValue placeholder={i18n.t("Select a camera")} />
             </SelectTrigger>
             <SelectContent className="bg-gray-900 border-gray-700 text-white">
               {availableCameras.length === 0 ? (
                 <div className="px-2 py-1.5 text-xs text-gray-500">
-                  No cameras detected
-                </div>
+                  {i18n.t("No cameras detected")}</div>
               ) : (
                 availableCameras.map((cam) => (
                   <SelectItem key={cam.index} value={String(cam.index)}>

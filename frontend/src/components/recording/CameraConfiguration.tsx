@@ -1,3 +1,4 @@
+import i18n from "@/i18n";
 import React, { useState, useEffect, useCallback, useRef } from "react";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
@@ -105,8 +106,8 @@ const CameraConfiguration: React.FC<CameraConfigurationProps> = ({
   const addCamera = () => {
     if (!selectedCameraIndex || !cameraName.trim()) {
       toast({
-        title: "Missing Information",
-        description: "Please select a camera and provide a name.",
+        title: i18n.t("Missing Information"),
+        description: i18n.t("Please select a camera and provide a name."),
         variant: "destructive",
       });
       return;
@@ -119,8 +120,8 @@ const CameraConfiguration: React.FC<CameraConfigurationProps> = ({
 
     if (!selectedCamera) {
       toast({
-        title: "Invalid Camera",
-        description: "Selected camera is not available.",
+        title: i18n.t("Invalid Camera"),
+        description: i18n.t("Selected camera is not available."),
         variant: "destructive",
       });
       return;
@@ -136,8 +137,8 @@ const CameraConfiguration: React.FC<CameraConfigurationProps> = ({
     );
     if (isDuplicate) {
       toast({
-        title: "Camera Already Added",
-        description: "This camera is already in the configuration.",
+        title: i18n.t("Camera Already Added"),
+        description: i18n.t("This camera is already in the configuration."),
         variant: "destructive",
       });
       return;
@@ -161,7 +162,7 @@ const CameraConfiguration: React.FC<CameraConfigurationProps> = ({
     setCameraName("");
 
     toast({
-      title: "Camera Added",
+      title: i18n.t("Camera Added"),
       description: `${newCamera.name} has been added to the configuration.`,
     });
   };
@@ -169,8 +170,8 @@ const CameraConfiguration: React.FC<CameraConfigurationProps> = ({
   const removeCamera = (cameraId: string) => {
     onCamerasChange(cameras.filter((cam) => cam.id !== cameraId));
     toast({
-      title: "Camera Removed",
-      description: "Camera has been removed from the configuration.",
+      title: i18n.t("Camera Removed"),
+      description: i18n.t("Camera has been removed from the configuration."),
     });
   };
 
@@ -200,21 +201,20 @@ const CameraConfiguration: React.FC<CameraConfigurationProps> = ({
   return (
     <div className="space-y-4">
       <h3 className="text-lg font-semibold text-white border-b border-gray-700 pb-2">
-        {readOnly ? "Cameras" : "Camera Configuration"}
+        {readOnly ? i18n.t("Cameras") : i18n.t("Camera Configuration")}
       </h3>
 
       {/* Add Camera Section — hidden in read-only mode (cameras are managed on
           the Calibration page, not added here). */}
       {!readOnly && (
       <div className="bg-gray-800/50 rounded-lg p-4 space-y-4">
-        <h4 className="text-md font-medium text-gray-300">Add Camera</h4>
+        <h4 className="text-md font-medium text-gray-300">{i18n.t("Add Camera")}</h4>
 
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
           <div className="space-y-2">
             <div className="flex items-center justify-between">
               <Label className="text-sm font-medium text-gray-300">
-                Available Cameras
-              </Label>
+                {i18n.t("Available Cameras")}</Label>
               <Button
                 type="button"
                 variant="ghost"
@@ -222,8 +222,8 @@ const CameraConfiguration: React.FC<CameraConfigurationProps> = ({
                 onClick={() => refreshCameras()}
                 disabled={isLoadingCameras}
                 className="h-6 w-6 text-gray-400 hover:text-white"
-                title="Rescan for cameras (e.g. after plugging in a new USB camera)"
-                aria-label="Rescan for cameras"
+                title={i18n.t("Rescan for cameras (e.g. after plugging in a new USB camera)")}
+                aria-label={i18n.t("Rescan for cameras")}
               >
                 <RefreshCw
                   className={`w-3.5 h-3.5 ${isLoadingCameras ? "animate-spin" : ""}`}
@@ -238,7 +238,7 @@ const CameraConfiguration: React.FC<CameraConfigurationProps> = ({
               <SelectTrigger className="bg-gray-800 border-gray-700 text-white">
                 <SelectValue
                   placeholder={
-                    isLoadingCameras ? "Loading cameras..." : "Select camera"
+                    isLoadingCameras ? i18n.t("Loading cameras...") : i18n.t("Select camera")
                   }
                 />
               </SelectTrigger>
@@ -272,12 +272,11 @@ const CameraConfiguration: React.FC<CameraConfigurationProps> = ({
 
           <div className="space-y-2">
             <Label className="text-sm font-medium text-gray-300">
-              Camera Name
-            </Label>
+              {i18n.t("Camera Name")}</Label>
             <Input
               value={cameraName}
               onChange={(e) => setCameraName(e.target.value)}
-              placeholder="e.g., workspace_cam"
+              placeholder={i18n.t("e.g., workspace_cam")}
               className="bg-gray-800 border-gray-700 text-white"
             />
           </div>
@@ -289,8 +288,7 @@ const CameraConfiguration: React.FC<CameraConfigurationProps> = ({
               disabled={!selectedCameraIndex || !cameraName.trim()}
             >
               <Plus className="w-4 h-4 mr-2" />
-              Add Camera
-            </Button>
+              {i18n.t("Add Camera")}</Button>
           </div>
         </div>
       </div>
@@ -327,8 +325,8 @@ const CameraConfiguration: React.FC<CameraConfigurationProps> = ({
           <Camera className="w-12 h-12 mx-auto mb-4 text-gray-600" />
           <p>
             {readOnly
-              ? "No cameras are configured for this robot."
-              : "No cameras configured. Add a camera to get started."}
+              ? i18n.t("No cameras are configured for this robot.")
+              : i18n.t("No cameras configured. Add a camera to get started.")}
           </p>
         </div>
       )}
@@ -372,7 +370,7 @@ const CameraPreview: React.FC<CameraPreviewProps> = ({
         rotation={camera.rotation}
         width={camera.width}
         height={camera.height}
-        fallback={paused ? "Preview paused" : deviceId ? undefined : "No browser match"}
+        fallback={paused ? i18n.t("Preview paused") : deviceId ? undefined : "No browser match"}
       />
       </div>
 
@@ -406,10 +404,10 @@ const CameraPreview: React.FC<CameraPreviewProps> = ({
             error={reference.error}
           />
         )}
-        {rotationError && <p role="alert" className="text-xs text-red-400">{rotationError} Select a valid rotation.</p>}
+        {rotationError && <p role="alert" className="text-xs text-red-400">{rotationError} {i18n.t("Select a valid rotation.")}</p>}
         {readOnly ? (
           <p className="text-xs text-gray-400">
-            {output ? `${output.width}×${output.height} · ${rotation}° clockwise` : "Invalid rotation"}
+            {output ? `${output.width}×${output.height} · ${rotation}° clockwise` : i18n.t("Invalid rotation")}
             {camera.fps ? ` · ${camera.fps} fps` : ""}
           </p>
         ) : (
@@ -418,8 +416,7 @@ const CameraPreview: React.FC<CameraPreviewProps> = ({
         <Collapsible>
           <CollapsibleTrigger className="group flex items-center gap-1.5 text-xs font-medium text-gray-300 hover:text-white transition-colors">
             <ChevronRight className="w-3.5 h-3.5 transition-transform group-data-[state=open]:rotate-90" />
-            Configuration
-          </CollapsibleTrigger>
+            {i18n.t("Configuration")}</CollapsibleTrigger>
           <CollapsibleContent className="pt-2 space-y-2">
             <div className="grid grid-cols-1 gap-2 text-xs text-gray-400">
               <div className="flex items-center gap-2">
@@ -474,8 +471,7 @@ const CameraPreview: React.FC<CameraPreviewProps> = ({
                       value={FOURCC_AUTO}
                       className="text-white hover:bg-gray-700 text-xs"
                     >
-                      Auto
-                    </SelectItem>
+                      {i18n.t("Auto")}</SelectItem>
                     {FOURCC_OPTIONS.map((code) => (
                       <SelectItem
                         key={code}
@@ -489,7 +485,7 @@ const CameraPreview: React.FC<CameraPreviewProps> = ({
                 </Select>
               </div>
               <div className="flex items-center gap-2">
-                <span className="w-16">Backend:</span>
+                <span className="w-16">{i18n.t("Backend:")}</span>
                 <Select
                   value={camera.backend ?? BACKEND_DEFAULT}
                   onValueChange={(v) =>

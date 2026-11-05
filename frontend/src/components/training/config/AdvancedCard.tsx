@@ -1,3 +1,4 @@
+import i18n from "@/i18n";
 import React, { useState } from 'react';
 import { Card, CardContent, CardHeader } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
@@ -39,7 +40,7 @@ const AdvancedCard: React.FC<ConfigComponentProps> = ({ config, updateConfig }) 
         }}
         className="cursor-pointer select-none flex flex-row items-center justify-between"
       >
-        <span className="text-white font-semibold">Advanced</span>
+        <span className="text-white font-semibold">{i18n.t("Advanced")}</span>
         <span className="flex items-center gap-1 text-slate-400 text-sm">
           {expanded ? (
             <ChevronDown className="w-4 h-4" />
@@ -54,7 +55,7 @@ const AdvancedCard: React.FC<ConfigComponentProps> = ({ config, updateConfig }) 
         <CardContent className="space-y-8">
           {/* Policy */}
           <section className="space-y-4">
-            <SectionHeading>Policy</SectionHeading>
+            <SectionHeading>{i18n.t("Policy")}</SectionHeading>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               {/* An HF Jobs pod picks its own device, so this only applies locally. */}
               {config.target.runner === 'local' && (
@@ -72,7 +73,7 @@ const AdvancedCard: React.FC<ConfigComponentProps> = ({ config, updateConfig }) 
                       <SelectValue />
                     </SelectTrigger>
                     <SelectContent className="bg-slate-800 border-slate-600 text-white">
-                      <SelectItem value="auto">Auto</SelectItem>
+                      <SelectItem value="auto">{i18n.t("Auto")}</SelectItem>
                       <SelectItem value="cpu">CPU</SelectItem>
                     </SelectContent>
                   </Select>
@@ -87,8 +88,7 @@ const AdvancedCard: React.FC<ConfigComponentProps> = ({ config, updateConfig }) 
                   onCheckedChange={(checked) => updateConfig('policy_use_amp', checked)}
                 />
                 <Label htmlFor="policy_use_amp" className="text-slate-300">
-                  Use Automatic Mixed Precision
-                </Label>
+                  {i18n.t("Use Automatic Mixed Precision")}</Label>
               </div>
             </div>
           </section>
@@ -97,12 +97,11 @@ const AdvancedCard: React.FC<ConfigComponentProps> = ({ config, updateConfig }) 
 
           {/* Training */}
           <section className="space-y-4">
-            <SectionHeading>Training</SectionHeading>
+            <SectionHeading>{i18n.t("Training")}</SectionHeading>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div>
                 <Label htmlFor="seed" className="text-slate-300">
-                  Random Seed
-                </Label>
+                  {i18n.t("Random Seed")}</Label>
                 <NumberInput
                   id="seed"
                   value={config.seed}
@@ -112,8 +111,7 @@ const AdvancedCard: React.FC<ConfigComponentProps> = ({ config, updateConfig }) 
               </div>
               <div>
                 <Label htmlFor="num_workers" className="text-slate-300">
-                  Number of Workers
-                </Label>
+                  {i18n.t("Number of Workers")}</Label>
                 <NumberInput
                   id="num_workers"
                   value={config.num_workers}
@@ -130,11 +128,10 @@ const AdvancedCard: React.FC<ConfigComponentProps> = ({ config, updateConfig }) 
 
           {/* Optimizer */}
           <section className="space-y-4">
-            <SectionHeading>Optimizer</SectionHeading>
+            <SectionHeading>{i18n.t("Optimizer")}</SectionHeading>
             <div>
               <Label htmlFor="optimizer_type" className="text-slate-300">
-                Optimizer
-              </Label>
+                {i18n.t("Optimizer")}</Label>
               <Select
                 value={config.optimizer_type || 'adam'}
                 onValueChange={(value) => updateConfig('optimizer_type', value)}
@@ -153,43 +150,40 @@ const AdvancedCard: React.FC<ConfigComponentProps> = ({ config, updateConfig }) 
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
               <div>
                 <Label htmlFor="optimizer_lr" className="text-slate-300">
-                  Learning Rate
-                </Label>
+                  {i18n.t("Learning Rate")}</Label>
                 <NumberInput
                   id="optimizer_lr"
                   integer={false}
                   step="0.0001"
                   value={config.optimizer_lr}
                   onChange={(v) => updateConfig('optimizer_lr', v)}
-                  placeholder="Use policy default"
+                  placeholder={i18n.t("Use policy default")}
                   className="bg-slate-900 border-slate-600 text-white rounded-lg"
                 />
               </div>
               <div>
                 <Label htmlFor="optimizer_weight_decay" className="text-slate-300">
-                  Weight Decay
-                </Label>
+                  {i18n.t("Weight Decay")}</Label>
                 <NumberInput
                   id="optimizer_weight_decay"
                   integer={false}
                   step="0.0001"
                   value={config.optimizer_weight_decay}
                   onChange={(v) => updateConfig('optimizer_weight_decay', v)}
-                  placeholder="Use policy default"
+                  placeholder={i18n.t("Use policy default")}
                   className="bg-slate-900 border-slate-600 text-white rounded-lg"
                 />
               </div>
               <div>
                 <Label htmlFor="optimizer_grad_clip_norm" className="text-slate-300">
-                  Gradient Clipping
-                </Label>
+                  {i18n.t("Gradient Clipping")}</Label>
                 <NumberInput
                   id="optimizer_grad_clip_norm"
                   integer={false}
                   step="0.0001"
                   value={config.optimizer_grad_clip_norm}
                   onChange={(v) => updateConfig('optimizer_grad_clip_norm', v)}
-                  placeholder="Use policy default"
+                  placeholder={i18n.t("Use policy default")}
                   className="bg-slate-900 border-slate-600 text-white rounded-lg"
                 />
               </div>
@@ -204,8 +198,7 @@ const AdvancedCard: React.FC<ConfigComponentProps> = ({ config, updateConfig }) 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div>
                 <Label htmlFor="log_freq" className="text-slate-300">
-                  Log Frequency
-                </Label>
+                  {i18n.t("Log Frequency")}</Label>
                 <NumberInput
                   id="log_freq"
                   value={config.log_freq}
@@ -217,8 +210,7 @@ const AdvancedCard: React.FC<ConfigComponentProps> = ({ config, updateConfig }) 
               </div>
               <div>
                 <Label htmlFor="save_freq" className="text-slate-300">
-                  Save Frequency
-                </Label>
+                  {i18n.t("Save Frequency")}</Label>
                 <NumberInput
                   id="save_freq"
                   value={config.save_freq}
@@ -236,8 +228,7 @@ const AdvancedCard: React.FC<ConfigComponentProps> = ({ config, updateConfig }) 
                 onCheckedChange={(checked) => updateConfig('save_checkpoint', checked)}
               />
               <Label htmlFor="save_checkpoint" className="text-slate-300">
-                Save Checkpoints
-              </Label>
+                {i18n.t("Save Checkpoints")}</Label>
             </div>
             <div className="flex items-center space-x-3">
               <Switch
@@ -246,8 +237,7 @@ const AdvancedCard: React.FC<ConfigComponentProps> = ({ config, updateConfig }) 
                 onCheckedChange={(checked) => updateConfig('resume', checked)}
               />
               <Label htmlFor="resume" className="text-slate-300">
-                Resume from Checkpoint
-              </Label>
+                {i18n.t("Resume from Checkpoint")}</Label>
             </div>
           </section>
 
@@ -258,8 +248,7 @@ const AdvancedCard: React.FC<ConfigComponentProps> = ({ config, updateConfig }) 
                 <SectionHeading>Weights & Biases</SectionHeading>
                 <div>
                   <Label htmlFor="wandb_entity" className="text-slate-300">
-                    W&B Entity (optional)
-                  </Label>
+                    {i18n.t("W&B Entity (optional)")}</Label>
                   <Input
                     id="wandb_entity"
                     value={config.wandb_entity || ''}
@@ -272,22 +261,20 @@ const AdvancedCard: React.FC<ConfigComponentProps> = ({ config, updateConfig }) 
                 </div>
                 <div>
                   <Label htmlFor="wandb_notes" className="text-slate-300">
-                    W&B Notes (optional)
-                  </Label>
+                    {i18n.t("W&B Notes (optional)")}</Label>
                   <Input
                     id="wandb_notes"
                     value={config.wandb_notes || ''}
                     onChange={(e) =>
                       updateConfig('wandb_notes', e.target.value || undefined)
                     }
-                    placeholder="Training run notes..."
+                    placeholder={i18n.t("Training run notes...")}
                     className="bg-slate-900 border-slate-600 text-white rounded-lg"
                   />
                 </div>
                 <div>
                   <Label htmlFor="wandb_mode" className="text-slate-300">
-                    W&B Mode
-                  </Label>
+                    {i18n.t("W&B Mode")}</Label>
                   <Select
                     value={config.wandb_mode || 'online'}
                     onValueChange={(value) => updateConfig('wandb_mode', value)}
@@ -311,8 +298,7 @@ const AdvancedCard: React.FC<ConfigComponentProps> = ({ config, updateConfig }) 
                     }
                   />
                   <Label htmlFor="wandb_disable_artifact" className="text-slate-300">
-                    Disable Artifacts
-                  </Label>
+                    {i18n.t("Disable Artifacts")}</Label>
                 </div>
               </section>
             </>
@@ -332,8 +318,7 @@ const AdvancedCard: React.FC<ConfigComponentProps> = ({ config, updateConfig }) 
                 }
               />
               <Label htmlFor="use_policy_training_preset" className="text-slate-300">
-                Use Policy Training Preset
-              </Label>
+                {i18n.t("Use Policy Training Preset")}</Label>
             </div>
           </section>
         </CardContent>

@@ -1,3 +1,4 @@
+import i18n from "@/i18n";
 import React from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -90,48 +91,42 @@ const RecordingModal: React.FC<RecordingModalProps> = ({
             </div>
           </div>
           <DialogTitle className="text-white text-center text-2xl font-bold">
-            {appendTo ? "Record More Episodes" : "Configure Recording"}
+            {appendTo ? i18n.t("Record More Episodes") : i18n.t("Configure Recording")}
           </DialogTitle>
         </DialogHeader>
         <div className="space-y-6 py-4">
           <DialogDescription className="text-gray-400 text-base leading-relaxed text-center">
             {appendTo ? (
               <>
-                New episodes are added to{" "}
+                {i18n.t("New episodes are added to")}{" "}
                 <span className="font-mono text-gray-300">{appendTo.repoId}</span>
-                , which has {appendTo.numEpisodes} so far.
-              </>
+                , which has {appendTo.numEpisodes} {i18n.t("so far.")}</>
             ) : (
-              "Pick a configured robot and dataset parameters for recording."
+              i18n.t("Pick a configured robot and dataset parameters for recording.")
             )}
           </DialogDescription>
 
           <div className="grid grid-cols-1 gap-6">
             <div className="space-y-4">
               <h3 className="text-lg font-semibold text-white border-b border-gray-700 pb-2">
-                Robot Configuration
-              </h3>
+                {i18n.t("Robot Configuration")}</h3>
               {!robot ? (
                 <Alert className="bg-amber-900/40 border-amber-700 text-amber-100">
                   <AlertTriangle className="h-4 w-4" />
                   <AlertDescription>
-                    Select and configure a robot on the Landing page before
-                    recording.
-                  </AlertDescription>
+                    {i18n.t("Select and configure a robot on the Landing page before recording.")}</AlertDescription>
                 </Alert>
               ) : !robot.is_clean ? (
                 <Alert className="bg-amber-900/40 border-amber-700 text-amber-100">
                   <AlertTriangle className="h-4 w-4" />
                   <AlertDescription>
-                    <strong>{robot.name}</strong> is missing a calibration.
-                    Configure it before recording.
-                  </AlertDescription>
+                    <strong>{robot.name}</strong> {i18n.t("is missing a calibration. Configure it before recording.")}</AlertDescription>
                 </Alert>
               ) : (
                 <div className="flex items-center gap-2 text-sm">
                   <CheckCircle className="w-4 h-4 text-green-400" />
                   <span className="text-slate-200">
-                    Recording with <strong>{robot.name}</strong>
+                    {i18n.t("Recording with")} <strong>{robot.name}</strong>
                   </span>
                 </div>
               )}
@@ -148,8 +143,7 @@ const RecordingModal: React.FC<RecordingModalProps> = ({
                       htmlFor="datasetName"
                       className="text-sm font-medium text-gray-300"
                     >
-                      Dataset Name *
-                    </Label>
+                      {i18n.t("Dataset Name *")}</Label>
                     <Input
                       id="datasetName"
                       value={datasetName}
@@ -162,22 +156,21 @@ const RecordingModal: React.FC<RecordingModalProps> = ({
                       className="bg-gray-800 border-gray-700 text-white"
                     />
                     <p className="text-xs text-gray-500">
-                      Letters, numbers, <code>.</code> <code>_</code>{" "}
-                      <code>-</code> only — other characters become{" "}
+                      {i18n.t("Letters, numbers,")} <code>.</code> <code>_</code>{" "}
+                      <code>-</code> {i18n.t("only — other characters become")}{" "}
                       <code>_</code>.
                     </p>
                     {datasetName &&
                       (auth.status === "authenticated" ? (
                         <p className="text-xs text-gray-500">
-                          Will be saved as{" "}
+                          {i18n.t("Will be saved as")}{" "}
                           <span className="text-gray-300 font-mono">
                             {auth.username}/{datasetName}
                           </span>
                         </p>
                       ) : auth.status === "unauthenticated" ? (
                         <p className="text-xs text-amber-400/80">
-                          Log in to Hugging Face to set the repository owner.
-                        </p>
+                          {i18n.t("Log in to Hugging Face to set the repository owner.")}</p>
                       ) : null)}
                   </div>
                 )}
@@ -186,8 +179,7 @@ const RecordingModal: React.FC<RecordingModalProps> = ({
                     htmlFor="singleTask"
                     className="text-sm font-medium text-gray-300"
                   >
-                    Task Description *
-                  </Label>
+                    {i18n.t("Task Description *")}</Label>
                   <Input
                     id="singleTask"
                     value={singleTask}
@@ -201,7 +193,7 @@ const RecordingModal: React.FC<RecordingModalProps> = ({
                     htmlFor="numEpisodes"
                     className="text-sm font-medium text-gray-300"
                   >
-                    {appendTo ? "Episodes to Add" : "Number of Episodes"}
+                    {appendTo ? i18n.t("Episodes to Add") : i18n.t("Number of Episodes")}
                   </Label>
                   <NumberInput
                     id="numEpisodes"
@@ -258,12 +250,9 @@ const RecordingModal: React.FC<RecordingModalProps> = ({
               !(robot && cameraConfigurationError(robot.cameras ?? [])) && (
                 <div className="space-y-4">
                   <h3 className="text-lg font-semibold text-white border-b border-gray-700 pb-2">
-                    Cameras
-                  </h3>
+                    {i18n.t("Cameras")}</h3>
                   <p className="text-xs text-gray-500">
-                    Bind a physical camera to each camera the dataset was
-                    recorded with. Resolution comes from the dataset.
-                  </p>
+                    {i18n.t("Bind a physical camera to each camera the dataset was recorded with. Resolution comes from the dataset.")}</p>
                   <CameraBindings
                     imageFeatures={appendTo.imageFeatures}
                     bindings={cameraBindings.bindings}
@@ -295,7 +284,7 @@ const RecordingModal: React.FC<RecordingModalProps> = ({
 
             <Collapsible className="space-y-4 group">
               <CollapsibleTrigger className="flex items-center justify-between w-full text-lg font-semibold text-white border-b border-gray-700 pb-2">
-                <span>Advanced Parameters</span>
+                <span>{i18n.t("Advanced Parameters")}</span>
                 <ChevronDown className="w-4 h-4 transition-transform group-data-[state=open]:rotate-180" />
               </CollapsibleTrigger>
               <CollapsibleContent className="space-y-3">
@@ -313,13 +302,9 @@ const RecordingModal: React.FC<RecordingModalProps> = ({
                       htmlFor="streamingEncoding"
                       className="text-sm font-medium text-gray-200 cursor-pointer"
                     >
-                      Streaming video encoding
-                    </Label>
+                      {i18n.t("Streaming video encoding")}</Label>
                     <p className="text-xs text-gray-500">
-                      Encodes frames in real time during capture so each
-                      episode saves almost instantly. Uncheck to fall back to
-                      the slower PNG-then-encode flow.
-                    </p>
+                      {i18n.t("Encodes frames in real time during capture so each episode saves almost instantly. Uncheck to fall back to the slower PNG-then-encode flow.")}</p>
                   </div>
                 </div>
               </CollapsibleContent>
@@ -332,15 +317,13 @@ const RecordingModal: React.FC<RecordingModalProps> = ({
               disabled={!canStart}
               className="w-full sm:w-auto bg-red-500 hover:bg-red-600 text-white px-10 py-6 text-lg transition-all shadow-md shadow-red-500/30 hover:shadow-lg hover:shadow-red-500/40 disabled:opacity-40 disabled:cursor-not-allowed"
             >
-              Start Recording
-            </Button>
+              {i18n.t("Start Recording")}</Button>
             <Button
               onClick={() => onOpenChange(false)}
               variant="outline"
               className="w-full sm:w-auto border-gray-500 hover:border-gray-200 px-10 py-6 text-lg text-zinc-500 bg-zinc-900 hover:bg-zinc-800"
             >
-              Cancel
-            </Button>
+              {i18n.t("Cancel")}</Button>
           </div>
         </div>
       </DialogContent>

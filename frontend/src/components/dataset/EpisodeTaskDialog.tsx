@@ -1,3 +1,4 @@
+import i18n from "@/i18n";
 import { useEffect, useState } from "react";
 
 import { Button } from "@/components/ui/button";
@@ -55,7 +56,7 @@ export default function EpisodeTaskDialog({
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="border-gray-700 bg-gray-900 text-gray-300 sm:max-w-lg">
         <DialogHeader>
-          <DialogTitle className="text-white">Edit task</DialogTitle>
+          <DialogTitle className="text-white">{i18n.t("Edit task")}</DialogTitle>
           <DialogDescription>
             The task is the instruction a policy is trained on, saved with each episode of{" "}
             <code>{repoId}</code>.
@@ -65,8 +66,7 @@ export default function EpisodeTaskDialog({
         <div className="space-y-3">
           <div className="space-y-2">
             <Label htmlFor="episode-task" className="text-gray-300">
-              Task
-            </Label>
+              {i18n.t("Task")}</Label>
             <Input
               id="episode-task"
               value={task}
@@ -86,7 +86,7 @@ export default function EpisodeTaskDialog({
                 className="border-gray-500"
               />
               <Label htmlFor="episode-task-all" className="text-sm text-gray-300">
-                Apply to all {totalEpisodes} episodes, not only episode {episodeIndex}
+                {i18n.t("Apply to all")} {totalEpisodes} episodes, not only episode {episodeIndex}
               </Label>
             </div>
           )}
@@ -94,11 +94,9 @@ export default function EpisodeTaskDialog({
 
         <DialogFooter>
           <Button variant="outline" onClick={() => onOpenChange(false)}>
-            Cancel
-          </Button>
+            {i18n.t("Cancel")}</Button>
           <Button onClick={handleSave} disabled={!canSave}>
-            Save task
-          </Button>
+            {i18n.t("Save task")}</Button>
         </DialogFooter>
       </DialogContent>
     </Dialog>

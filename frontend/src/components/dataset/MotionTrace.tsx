@@ -1,3 +1,4 @@
+import i18n from "@/i18n";
 import React, { useEffect, useMemo, useState } from "react";
 import {
   Area,
@@ -43,7 +44,7 @@ const MotionTrace: React.FC<MotionTraceProps> = ({
         if (controller.signal.aborted) return;
         if (!r.success) {
           setMotion(null);
-          setError(r.message ?? "No action stream");
+          setError(r.message ?? i18n.t("No action stream"));
           return;
         }
         setMotion(r.motion);
@@ -51,7 +52,7 @@ const MotionTrace: React.FC<MotionTraceProps> = ({
       .catch((e) => {
         if (controller.signal.aborted) return;
         setMotion(null);
-        setError(e instanceof Error ? e.message : "No action stream");
+        setError(e instanceof Error ? e.message : i18n.t("No action stream"));
       });
     return () => controller.abort();
   }, [baseUrl, fetchWithHeaders, repoId, episodeIndex]);
@@ -64,7 +65,7 @@ const MotionTrace: React.FC<MotionTraceProps> = ({
   if (error) {
     return (
       <div className="flex h-[64px] items-center justify-center rounded-md border border-gray-800 bg-gray-950 text-[11px] text-gray-600">
-        Joint motion unavailable — {error}
+        {i18n.t("Joint motion unavailable —")} {error}
       </div>
     );
   }
@@ -77,8 +78,7 @@ const MotionTrace: React.FC<MotionTraceProps> = ({
     <div className="rounded-md border border-gray-800 bg-gray-950 px-1 pb-1 pt-1.5">
       <div className="flex items-center justify-between px-2 pb-1">
         <span className="text-[10px] uppercase tracking-wider text-gray-600">
-          Joint motion
-        </span>
+          {i18n.t("Joint motion")}</span>
         <span className="text-[10px] tabular-nums text-gray-600">
           frame {currentFrame}
         </span>

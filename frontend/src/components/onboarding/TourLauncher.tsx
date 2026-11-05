@@ -1,4 +1,5 @@
 import React from "react";
+import { useTranslation } from "react-i18next";
 import { HelpCircle } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useOnboarding } from "@/contexts/OnboardingContext";
@@ -15,6 +16,7 @@ const TourLauncher: React.FC<TourLauncherProps> = ({
   className,
 }) => {
   const { start, isActive } = useOnboarding();
+  const { t } = useTranslation();
 
   // The floating button would only get in the way while the tour is running.
   if (variant === "floating" && isActive) return null;
@@ -24,8 +26,8 @@ const TourLauncher: React.FC<TourLauncherProps> = ({
       <button
         type="button"
         onClick={start}
-        aria-label="Start the guided tour"
-        title="Guided tour"
+        aria-label={t("Start the guided tour")}
+        title={t("Guided tour")}
         className={cn(
           "fixed bottom-4 right-4 z-30 flex h-11 w-11 items-center justify-center",
           "rounded-full border border-gray-700 bg-gray-900 text-gray-300 shadow-lg",
@@ -42,7 +44,7 @@ const TourLauncher: React.FC<TourLauncherProps> = ({
     <button
       type="button"
       onClick={start}
-      aria-label="Start the guided tour"
+      aria-label={t("Start the guided tour")}
       className={cn(
         "flex items-center gap-1.5 rounded-md border border-gray-700 px-2.5 py-1.5",
         "text-xs font-medium text-gray-300 transition-colors hover:bg-gray-800 hover:text-white",
@@ -50,7 +52,7 @@ const TourLauncher: React.FC<TourLauncherProps> = ({
       )}
     >
       <HelpCircle className="h-4 w-4" />
-      Tour
+      {t("Tour")}
     </button>
   );
 };

@@ -1,3 +1,4 @@
+import i18n from "@/i18n";
 import React, { useState } from "react";
 import { Plus, ExternalLink } from "lucide-react";
 import {
@@ -49,12 +50,12 @@ const DatasetPicker: React.FC<DatasetPickerProps> = ({
 
   const createDisabled = matchesExisting || (trimmed !== "" && !canCreate);
   const createLabel = matchesExisting
-    ? "Already exists"
+    ? i18n.t("Already exists")
     : trimmed === ""
-      ? "Create new dataset…"
+      ? i18n.t("Create new dataset…")
       : canCreate
         ? `Create "${trimmed}"`
-        : 'Use a name without "/"';
+        : i18n.t("Use a name without \"/\"");
 
   const handleFooterCreate = () => {
     if (createDisabled) return;
@@ -96,7 +97,7 @@ const DatasetPicker: React.FC<DatasetPickerProps> = ({
     >
       <span className="flex-1 truncate">{d.repo_id}</span>
       {d.source === "both" && (
-        <span className="text-xs text-gray-400 mr-2">on Hub</span>
+        <span className="text-xs text-gray-400 mr-2">{i18n.t("on Hub")}</span>
       )}
       {d.private && (
         <span className="text-xs text-amber-400">private</span>
@@ -113,7 +114,7 @@ const DatasetPicker: React.FC<DatasetPickerProps> = ({
       >
         <Command className="bg-gray-800">
           <CommandInput
-            placeholder={onCreateNew ? "Search, type a new name, or org/name…" : "Search datasets…"}
+            placeholder={onCreateNew ? i18n.t("Search, type a new name, or org/name…") : i18n.t("Search datasets…")}
             value={query}
             onValueChange={(v) => setQuery(v.replace(/[^A-Za-z0-9._\-/]/g, "_"))}
             onKeyDown={(e) => {
@@ -132,14 +133,14 @@ const DatasetPicker: React.FC<DatasetPickerProps> = ({
             {datasets.length === 0 && !canCreate && !canOpenCustom && (
               <CommandEmpty className="py-4 text-sm text-gray-400 text-center">
                 {loading
-                  ? "Loading datasets…"
+                  ? i18n.t("Loading datasets…")
                   : onCreateNew
-                    ? "No datasets yet. Type a name to create one."
-                    : "No datasets available."}
+                    ? i18n.t("No datasets yet. Type a name to create one.")
+                    : i18n.t("No datasets available.")}
               </CommandEmpty>
             )}
             {localDatasets.length > 0 && (
-              <CommandGroup heading="Local">
+              <CommandGroup heading={i18n.t("Local")}>
                 {localDatasets.map(renderItem)}
               </CommandGroup>
             )}
@@ -149,15 +150,14 @@ const DatasetPicker: React.FC<DatasetPickerProps> = ({
               </CommandGroup>
             )}
             {canOpenCustom && (
-              <CommandGroup heading="Custom repo">
+              <CommandGroup heading={i18n.t("Custom repo")}>
                 <CommandItem
                   value={`__open__${trimmed}`}
                   onSelect={handleOpenCustom}
                   className="text-white aria-selected:bg-gray-700"
                 >
                   <ExternalLink className="mr-2 h-4 w-4" />
-                  Open &quot;{trimmed}&quot; in viewer
-                </CommandItem>
+                  {i18n.t("Open &quot;")}{trimmed}{i18n.t("&quot; in viewer")}</CommandItem>
               </CommandGroup>
             )}
           </CommandList>

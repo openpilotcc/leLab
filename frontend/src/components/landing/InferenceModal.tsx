@@ -1,3 +1,4 @@
+import i18n from "@/i18n";
 import React, { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -170,7 +171,7 @@ const InferenceModal: React.FC<Props> = ({
       navigate("/inference");
     } catch (e) {
       toast({
-        title: "Couldn't start inference",
+        title: i18n.t("Couldn't start inference"),
         description: e instanceof Error ? e.message : String(e),
         variant: "destructive",
       });
@@ -189,40 +190,31 @@ const InferenceModal: React.FC<Props> = ({
             </div>
           </div>
           <DialogTitle className="text-white text-center text-2xl font-bold">
-            Configure Inference
-          </DialogTitle>
+            {i18n.t("Configure Inference")}</DialogTitle>
         </DialogHeader>
 
         <div className="space-y-6 py-4">
           <DialogDescription className="text-gray-400 text-base leading-relaxed text-center">
-            Pick a checkpoint and confirm hardware. The selected policy will
-            drive the follower autonomously for the configured duration.
-          </DialogDescription>
+            {i18n.t("Pick a checkpoint and confirm hardware. The selected policy will drive the follower autonomously for the configured duration.")}</DialogDescription>
           {policyConfig && !BUILTIN_POLICY_TYPES.has(policyConfig.policy_type ?? "") && (
             <p className="text-xs text-gray-500 text-center -mt-3">
-              This is a plugin policy: its package must be installed alongside
-              lelab, or the run will fail to load the policy.
-            </p>
+              {i18n.t("This is a plugin policy: its package must be installed alongside lelab, or the run will fail to load the policy.")}</p>
           )}
 
           <div className="space-y-4">
             <h3 className="text-lg font-semibold text-white border-b border-gray-700 pb-2">
-              Robot Configuration
-            </h3>
+              {i18n.t("Robot Configuration")}</h3>
             {!robot ? (
               <Alert className="bg-amber-900/40 border-amber-700 text-amber-100">
                 <AlertTriangle className="h-4 w-4" />
                 <AlertDescription>
-                  Select and configure a robot on the Landing page first.
-                </AlertDescription>
+                  {i18n.t("Select and configure a robot on the Landing page first.")}</AlertDescription>
               </Alert>
             ) : !robot.is_clean ? (
               <Alert className="bg-amber-900/40 border-amber-700 text-amber-100">
                 <AlertTriangle className="h-4 w-4" />
                 <AlertDescription>
-                  <strong>{robot.name}</strong> is missing a calibration.
-                  Configure it before running inference.
-                </AlertDescription>
+                  <strong>{robot.name}</strong> {i18n.t("is missing a calibration. Configure it before running inference.")}</AlertDescription>
               </Alert>
             ) : (
               <div className="flex items-center gap-2 text-sm">
@@ -242,8 +234,7 @@ const InferenceModal: React.FC<Props> = ({
               <Alert className="bg-amber-900/40 border-amber-700 text-amber-100">
                 <AlertTriangle className="h-4 w-4" />
                 <AlertDescription>
-                  No checkpoints available for this job yet.
-                </AlertDescription>
+                  {i18n.t("No checkpoints available for this job yet.")}</AlertDescription>
               </Alert>
             ) : (
               <CheckpointDropdown
@@ -256,13 +247,11 @@ const InferenceModal: React.FC<Props> = ({
 
           <div className="space-y-4">
             <h3 className="text-lg font-semibold text-white border-b border-gray-700 pb-2">
-              Run parameters
-            </h3>
+              {i18n.t("Run parameters")}</h3>
             {policyConfig?.requires_task ? (
               <div className="space-y-2">
                 <Label htmlFor="task" className="text-sm font-medium text-gray-300">
-                  Task description
-                </Label>
+                  {i18n.t("Task description")}</Label>
                 <Input
                   id="task"
                   value={task}
@@ -271,7 +260,7 @@ const InferenceModal: React.FC<Props> = ({
                   className="bg-gray-800 border-gray-700 text-white"
                 />
                 <p className="text-xs text-gray-500">
-                  This policy is language-conditioned ({policyConfig.policy_type}).
+                  {i18n.t("This policy is language-conditioned (")}{policyConfig.policy_type}).
                 </p>
               </div>
             ) : null}
@@ -293,36 +282,30 @@ const InferenceModal: React.FC<Props> = ({
 
           <div className="space-y-4">
             <h3 className="text-lg font-semibold text-white border-b border-gray-700 pb-2">
-              Cameras
-            </h3>
+              {i18n.t("Cameras")}</h3>
             {cameraError ? (
               <Alert className="bg-red-900/40 border-red-700 text-red-100">
                 <AlertTriangle className="h-4 w-4" />
-                <AlertDescription>{cameraError} Correct the camera settings in Calibration.</AlertDescription>
+                <AlertDescription>{cameraError} {i18n.t("Correct the camera settings in Calibration.")}</AlertDescription>
               </Alert>
             ) : policyConfigLoading ? (
               <div className="flex items-center gap-2 text-sm text-slate-400">
                 <Loader2 className="w-4 h-4 animate-spin" />
-                Reading policy config…
-              </div>
+                {i18n.t("Reading policy config…")}</div>
             ) : policyConfigError ? (
               <Alert className="bg-red-900/40 border-red-700 text-red-100">
                 <AlertTriangle className="h-4 w-4" />
                 <AlertDescription>
-                  Couldn't load policy config: {policyConfigError}
+                  {i18n.t("Couldn't load policy config:")} {policyConfigError}
                 </AlertDescription>
               </Alert>
             ) : !policyConfig ? null : Object.keys(policyConfig.image_features).length === 0 ? (
               <p className="text-xs text-gray-500">
-                This policy doesn't use cameras.
-              </p>
+                {i18n.t("This policy doesn't use cameras.")}</p>
             ) : (
               <div className="space-y-3">
                 <p className="text-xs text-gray-500">
-                  Bind a physical camera to each name the policy was trained
-                  with. Resolution comes from the checkpoint. Use the same
-                  rotation as the training data.
-                </p>
+                  {i18n.t("Bind a physical camera to each name the policy was trained with. Resolution comes from the checkpoint. Use the same rotation as the training data.")}</p>
                 <CameraBindings
                   imageFeatures={policyConfig.image_features}
                   bindings={cameraBindings.bindings}
@@ -343,15 +326,14 @@ const InferenceModal: React.FC<Props> = ({
               className="w-full sm:w-auto bg-green-500 hover:bg-green-600 text-white px-10 py-6 text-lg disabled:opacity-40 disabled:cursor-not-allowed"
             >
               <Play className="w-5 h-5 mr-2" />
-              {submitting ? "Starting…" : "Start Inference"}
+              {submitting ? i18n.t("Starting…") : i18n.t("Start Inference")}
             </Button>
             <Button
               onClick={() => onOpenChange(false)}
               variant="outline"
               className="w-full sm:w-auto border-gray-500 hover:border-gray-200 px-10 py-6 text-lg text-zinc-500 bg-zinc-900 hover:bg-zinc-800"
             >
-              Cancel
-            </Button>
+              {i18n.t("Cancel")}</Button>
           </div>
         </div>
       </DialogContent>

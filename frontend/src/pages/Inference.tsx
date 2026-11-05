@@ -1,3 +1,4 @@
+import i18n from "@/i18n";
 import React, { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { ArrowLeft, Loader2, Square } from "lucide-react";
@@ -61,7 +62,7 @@ const Inference: React.FC = () => {
           navigatedAwayRef.current = true;
           if (next.exited) {
             toast({
-              title: "Inference finished",
+              title: i18n.t("Inference finished"),
               description:
                 next.exit_code === 0
                   ? "Run completed."
@@ -86,7 +87,7 @@ const Inference: React.FC = () => {
         ) {
           stopRequestedRef.current = true;
           toast({
-            title: "Inference seems hung",
+            title: i18n.t("Inference seems hung"),
             description: `Rollout past duration by ${Math.round(
               next.rollout_elapsed_s - next.duration_s,
             )}s. Stopping.`,
@@ -97,7 +98,7 @@ const Inference: React.FC = () => {
       } catch (e) {
         if (!cancelled) {
           toast({
-            title: "Lost connection to backend",
+            title: i18n.t("Lost connection to backend"),
             description: e instanceof Error ? e.message : String(e),
             variant: "destructive",
           });
@@ -119,7 +120,7 @@ const Inference: React.FC = () => {
       // Status poll will catch the inactive state and navigate home.
     } catch (e) {
       toast({
-        title: "Stop failed",
+        title: i18n.t("Stop failed"),
         description: e instanceof Error ? e.message : String(e),
         variant: "destructive",
       });
@@ -129,8 +130,7 @@ const Inference: React.FC = () => {
   if (!status) {
     return (
       <div className="min-h-screen bg-black text-white flex items-center justify-center">
-        <Loader2 className="w-6 h-6 animate-spin mr-3" /> Connecting to inference…
-      </div>
+        <Loader2 className="w-6 h-6 animate-spin mr-3" /> {i18n.t("Connecting to inference…")}</div>
     );
   }
 
@@ -146,7 +146,7 @@ const Inference: React.FC = () => {
       ? Math.min(100, (rolloutElapsed / duration) * 100)
       : 0;
   const pillLabel = isSettingUp
-    ? "SETTING UP"
+    ? i18n.t("SETTING UP")
     : isRunning
     ? "RUNNING"
     : "FINISHED";
@@ -164,7 +164,7 @@ const Inference: React.FC = () => {
           <ArrowLeft className="w-5 h-5" />
         </Button>
         <Logo />
-        <h1 className="font-bold text-white text-2xl">Inference</h1>
+        <h1 className="font-bold text-white text-2xl">{i18n.t("Inference")}</h1>
       </div>
 
       <div className="flex-1 flex items-center justify-center">
@@ -196,7 +196,7 @@ const Inference: React.FC = () => {
             </div>
             <div className="text-sm text-gray-500 mt-2">
               {isSettingUp
-                ? "Loading policy & connecting hardware…"
+                ? i18n.t("Loading policy & connecting hardware…")
                 : `/ ${formatTime(duration)}`}
             </div>
           </div>
@@ -222,15 +222,14 @@ const Inference: React.FC = () => {
             className="w-full bg-red-500 hover:bg-red-600 text-white font-semibold py-6 text-lg disabled:opacity-50"
           >
             <Square className="w-5 h-5 mr-2" />
-            Stop
-          </Button>
+            {i18n.t("Stop")}</Button>
         </div>
       </div>
 
       <AlertDialog open={showStopConfirm} onOpenChange={setShowStopConfirm}>
         <AlertDialogContent className="bg-gray-900 border-gray-700 text-white">
           <AlertDialogHeader>
-            <AlertDialogTitle>Stop inference?</AlertDialogTitle>
+            <AlertDialogTitle>{i18n.t("Stop inference?")}</AlertDialogTitle>
             <AlertDialogDescription className="text-gray-400">
               The follower will hold its current pose. You can launch another
               run from the job tile.
@@ -244,8 +243,7 @@ const Inference: React.FC = () => {
               onClick={handleStop}
               className="bg-red-500 hover:bg-red-600 text-white"
             >
-              Stop
-            </AlertDialogAction>
+              {i18n.t("Stop")}</AlertDialogAction>
           </AlertDialogFooter>
         </AlertDialogContent>
       </AlertDialog>

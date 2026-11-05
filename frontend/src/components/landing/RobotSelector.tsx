@@ -1,3 +1,4 @@
+import i18n from "@/i18n";
 import React, { useState } from "react";
 import { Plus, Check, ChevronsUpDown } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -42,9 +43,9 @@ const RobotSelector: React.FC<RobotSelectorProps> = ({
 
   const createDisabled = !canCreate;
   const createLabel = matchesExisting
-    ? "Already exists"
+    ? i18n.t("Already exists")
     : trimmed === ""
-      ? "Create new robot…"
+      ? i18n.t("Create new robot…")
       : `Create "${trimmed}"`;
 
   const reset = () => {
@@ -76,7 +77,7 @@ const RobotSelector: React.FC<RobotSelectorProps> = ({
           <span className={cn("truncate", selectedName ? "" : "text-gray-400")}>
             {isLoading
               ? "Loading..."
-              : selectedName ?? "Select a robot or type a new name"}
+              : selectedName ?? i18n.t("Select a robot or type a new name")}
           </span>
           <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
         </Button>
@@ -88,7 +89,7 @@ const RobotSelector: React.FC<RobotSelectorProps> = ({
       >
         <Command className="bg-gray-800">
           <CommandInput
-            placeholder="Search or type new name..."
+            placeholder={i18n.t("Search or type new name...")}
             value={query}
             onValueChange={setQuery}
             onKeyDown={(e) => {
@@ -102,8 +103,7 @@ const RobotSelector: React.FC<RobotSelectorProps> = ({
           <CommandList>
             {availableNames.length === 0 && (
               <CommandEmpty className="py-4 text-sm text-gray-400 text-center">
-                No robots yet. Type a name to create one.
-              </CommandEmpty>
+                {i18n.t("No robots yet. Type a name to create one.")}</CommandEmpty>
             )}
             {availableNames.length > 0 && (
               <CommandGroup heading="Existing">

@@ -1,3 +1,4 @@
+import i18n from "@/i18n";
 import React, { useEffect, useRef } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
@@ -48,8 +49,7 @@ const GrootCard: React.FC<ConfigComponentProps> = ({ config, updateConfig }) => 
       <CardContent className="space-y-6">
         <div>
           <Label htmlFor="policy_base_model_path" className="text-slate-300">
-            Base Model Path
-          </Label>
+            {i18n.t("Base Model Path")}</Label>
           <Input
             id="policy_base_model_path"
             value={config.policy_base_model_path ?? ''}
@@ -60,15 +60,13 @@ const GrootCard: React.FC<ConfigComponentProps> = ({ config, updateConfig }) => 
             className="bg-slate-900 border-slate-600 text-white rounded-lg"
           />
           <p className="text-xs text-slate-500 mt-1">
-            HuggingFace repo of the pretrained GR00T backbone to fine-tune.
-          </p>
+            {i18n.t("HuggingFace repo of the pretrained GR00T backbone to fine-tune.")}</p>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div>
             <Label htmlFor="policy_embodiment_tag" className="text-slate-300">
-              Embodiment Tag
-            </Label>
+              {i18n.t("Embodiment Tag")}</Label>
             <Input
               id="policy_embodiment_tag"
               value={config.policy_embodiment_tag ?? ''}
@@ -82,8 +80,7 @@ const GrootCard: React.FC<ConfigComponentProps> = ({ config, updateConfig }) => 
 
           <div>
             <Label htmlFor="policy_relative_exclude_joints" className="text-slate-300">
-              Relative Exclude Joints
-            </Label>
+              {i18n.t("Relative Exclude Joints")}</Label>
             <Input
               id="policy_relative_exclude_joints"
               value={excludeJoints}
@@ -106,8 +103,7 @@ const GrootCard: React.FC<ConfigComponentProps> = ({ config, updateConfig }) => 
 
           <div>
             <Label htmlFor="policy_chunk_size" className="text-slate-300">
-              Chunk Size
-            </Label>
+              {i18n.t("Chunk Size")}</Label>
             <NumberInput
               id="policy_chunk_size"
               value={config.policy_chunk_size}
@@ -118,8 +114,7 @@ const GrootCard: React.FC<ConfigComponentProps> = ({ config, updateConfig }) => 
 
           <div>
             <Label htmlFor="policy_n_action_steps" className="text-slate-300">
-              Action Steps
-            </Label>
+              {i18n.t("Action Steps")}</Label>
             <NumberInput
               id="policy_n_action_steps"
               value={config.policy_n_action_steps}
@@ -140,8 +135,7 @@ const GrootCard: React.FC<ConfigComponentProps> = ({ config, updateConfig }) => 
               className="data-[state=checked]:bg-green-500"
             />
             <Label htmlFor="policy_use_relative_actions" className="text-slate-300">
-              Use Relative Actions
-            </Label>
+              {i18n.t("Use Relative Actions")}</Label>
           </div>
 
           <div className="flex items-center space-x-3">
@@ -152,8 +146,7 @@ const GrootCard: React.FC<ConfigComponentProps> = ({ config, updateConfig }) => 
               className="data-[state=checked]:bg-green-500"
             />
             <Label htmlFor="policy_use_bf16" className="text-slate-300">
-              Use bfloat16
-            </Label>
+              {i18n.t("Use bfloat16")}</Label>
           </div>
 
           <div className="flex items-center space-x-3">
@@ -166,8 +159,7 @@ const GrootCard: React.FC<ConfigComponentProps> = ({ config, updateConfig }) => 
               className="data-[state=checked]:bg-green-500"
             />
             <Label htmlFor="dataset_image_transforms_enable" className="text-slate-300">
-              Enable Image Augmentations
-            </Label>
+              {i18n.t("Enable Image Augmentations")}</Label>
           </div>
         </div>
       </CardContent>

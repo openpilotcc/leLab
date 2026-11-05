@@ -1,3 +1,4 @@
+import i18n from "@/i18n";
 import React from "react";
 import { Button } from "@/components/ui/button";
 import { ArrowLeft } from "lucide-react";
@@ -36,7 +37,7 @@ const VisualizerPanel: React.FC<VisualizerPanelProps> = ({
           </Button>
           <Logo iconOnly={true} />
           <div className="w-px h-6 bg-gray-700" />
-          <h2 className="text-xl font-medium text-gray-200">Teleoperation</h2>
+          <h2 className="text-xl font-medium text-gray-200">{i18n.t("Teleoperation")}</h2>
         </div>
         <div className="flex-1 bg-black rounded border border-gray-800 min-h-[50vh] lg:min-h-0">
           <UrdfViewer />

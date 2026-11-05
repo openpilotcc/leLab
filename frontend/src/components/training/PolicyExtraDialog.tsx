@@ -1,3 +1,4 @@
+import i18n from "@/i18n";
 import React from "react";
 import {
   Dialog,
@@ -46,7 +47,7 @@ const PolicyExtraDialog: React.FC<Props> = ({
             {installTitle(install.state, title)}
           </DialogTitle>
           <DialogDescription className="sr-only">
-            Install {installTarget} to train {policyType}.
+            Install {installTarget} {i18n.t("to train")} {policyType}.
           </DialogDescription>
         </DialogHeader>
 
@@ -63,9 +64,9 @@ const PolicyExtraDialog: React.FC<Props> = ({
             idleTitle={title}
             idleDescription={
               <>
-                Training a <span className="font-semibold">{policyType}</span> policy needs the{" "}
+                {i18n.t("Training a")} <span className="font-semibold">{policyType}</span> {i18n.t("policy needs the")}{" "}
                 <code className="px-1 py-0.5 rounded bg-slate-900 text-sky-300">{packageName}</code>{" "}
-                package (installed via{" "}
+                {i18n.t("package (installed via")}{" "}
                 <code className="px-1 py-0.5 rounded bg-slate-900 text-sky-300">{installTarget}</code>),
                 which isn't in this environment yet. Install it to train this policy.
               </>

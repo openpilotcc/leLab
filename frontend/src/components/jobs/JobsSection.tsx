@@ -1,3 +1,4 @@
+import i18n from "@/i18n";
 import React, { useCallback, useEffect, useMemo, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -121,7 +122,7 @@ const JobsSection: React.FC = () => {
       refresh();
     } catch (e) {
       toast({
-        title: "Stop failed",
+        title: i18n.t("Stop failed"),
         description: e instanceof Error ? e.message : String(e),
         variant: "destructive",
       });
@@ -141,7 +142,7 @@ const JobsSection: React.FC = () => {
       refresh();
     } catch (e) {
       toast({
-        title: "Delete failed",
+        title: i18n.t("Delete failed"),
         description: e instanceof Error ? e.message : String(e),
         variant: "destructive",
       });
@@ -247,16 +248,16 @@ const JobsSection: React.FC = () => {
   return (
     <section className="space-y-6" data-tour="jobs-section">
       <div className="flex items-center justify-between gap-3">
-        <h2 className="text-lg font-semibold text-white">Jobs</h2>
+        <h2 className="text-lg font-semibold text-white">{i18n.t("Jobs")}</h2>
         <div className="flex items-center gap-2">
           <div className="relative">
             <Search className="absolute left-2.5 top-1/2 -translate-y-1/2 w-3.5 h-3.5 text-slate-400 pointer-events-none" />
             <Input
               value={search}
               onChange={(e) => setSearch(e.target.value)}
-              placeholder="Search jobs"
+              placeholder={i18n.t("Search jobs")}
               className="h-8 w-48 sm:w-60 pl-8 bg-slate-800/50 border-slate-700 text-sm text-white placeholder:text-slate-500"
-              aria-label="Search jobs"
+              aria-label={i18n.t("Search jobs")}
             />
           </div>
           <Button
@@ -266,33 +267,32 @@ const JobsSection: React.FC = () => {
             className="h-8 border-slate-700 bg-slate-800/50 text-slate-200 hover:text-white"
           >
             <Download className="w-3.5 h-3.5 mr-1.5" />
-            Import model
-          </Button>
+            {i18n.t("Import model")}</Button>
           <Button
             variant="ghost"
             size="icon"
             onClick={refresh}
             className="h-7 w-7 text-slate-400 hover:text-white"
-            aria-label="Refresh jobs"
+            aria-label={i18n.t("Refresh jobs")}
           >
             <RefreshCw className="w-4 h-4" />
           </Button>
         </div>
       </div>
 
-      {error ? <p className="text-sm text-red-300">Couldn't load jobs: {error}</p> : null}
+      {error ? <p className="text-sm text-red-300">{i18n.t("Couldn't load jobs:")} {error}</p> : null}
 
       <Collapsible defaultOpen>
         <CollapsibleTrigger className="group flex items-center gap-1.5 text-sm font-semibold uppercase tracking-wide text-slate-400 hover:text-white transition-colors">
           <ChevronRight className="w-3.5 h-3.5 transition-transform group-data-[state=open]:rotate-90" />
-          Local jobs ({localActive.length})
+          {i18n.t("Local jobs (")}{localActive.length})
         </CollapsibleTrigger>
         <CollapsibleContent className="pt-3">
           {localActive.length === 0 ? (
             <p className="text-sm text-slate-500">
               {query
-                ? "No local jobs match your search."
-                : "No active local jobs. Start one from the Training page."}
+                ? i18n.t("No local jobs match your search.")
+                : i18n.t("No active local jobs. Start one from the Training page.")}
             </p>
           ) : (
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
@@ -316,7 +316,7 @@ const JobsSection: React.FC = () => {
           <Collapsible defaultOpen>
             <CollapsibleTrigger className="group flex items-center gap-1.5 text-sm font-semibold uppercase tracking-wide text-slate-400 hover:text-white transition-colors">
               <ChevronRight className="w-3.5 h-3.5 transition-transform group-data-[state=open]:rotate-90" />
-              Imported models ({importedJobs.length})
+              {i18n.t("Imported models (")}{importedJobs.length})
             </CollapsibleTrigger>
             <CollapsibleContent className="pt-3">
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
@@ -340,8 +340,7 @@ const JobsSection: React.FC = () => {
       <Collapsible defaultOpen>
         <CollapsibleTrigger className="group flex items-center gap-1.5 text-sm font-semibold uppercase tracking-wide text-slate-400 hover:text-white transition-colors">
           <ChevronRight className="w-3.5 h-3.5 transition-transform group-data-[state=open]:rotate-90" />
-          Online jobs (
-          {trackedCloudActive.length +
+          {i18n.t("Online jobs (")} {trackedCloudActive.length +
             untrackedHubActive.length +
             untrackedHubModels.length}
           )
@@ -349,13 +348,12 @@ const JobsSection: React.FC = () => {
         <CollapsibleContent className="pt-3">
           {!hubAuthenticated && trackedCloudJobs.length === 0 ? (
             <p className="text-sm text-slate-500">
-              Sign in with Hugging Face to see your cloud jobs.
-            </p>
+              {i18n.t("Sign in with Hugging Face to see your cloud jobs.")}</p>
           ) : trackedCloudActive.length === 0 &&
             untrackedHubActive.length === 0 &&
             untrackedHubModels.length === 0 ? (
             <p className="text-sm text-slate-500">
-              {query ? "No online jobs match your search." : "No active cloud jobs."}
+              {query ? i18n.t("No online jobs match your search.") : i18n.t("No active cloud jobs.")}
             </p>
           ) : (
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
@@ -383,7 +381,7 @@ const JobsSection: React.FC = () => {
         <Collapsible>
           <CollapsibleTrigger className="group flex items-center gap-1.5 text-xs font-semibold uppercase tracking-wide text-slate-400 hover:text-white transition-colors">
             <ChevronRight className="w-3.5 h-3.5 transition-transform group-data-[state=open]:rotate-90" />
-            Untracked ({untrackedCount})
+            {i18n.t("Untracked (")}{untrackedCount})
           </CollapsibleTrigger>
           <CollapsibleContent className="pt-3">
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">

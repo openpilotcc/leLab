@@ -1,3 +1,4 @@
+import i18n from "@/i18n";
 import React, { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -50,19 +51,15 @@ const ImportModelModal: React.FC<Props> = ({ open, onOpenChange, onImported }) =
       <DialogContent className="bg-gray-900 border-gray-800 text-white sm:max-w-[520px] p-8">
         <DialogHeader>
           <DialogTitle className="text-white text-center text-2xl font-bold">
-            Import a model
-          </DialogTitle>
+            {i18n.t("Import a model")}</DialogTitle>
           <DialogDescription className="text-gray-400 text-center">
-            Point at a local directory or a Hugging Face repo. It appears as a
-            job you can run inference on.
-          </DialogDescription>
+            {i18n.t("Point at a local directory or a Hugging Face repo. It appears as a job you can run inference on.")}</DialogDescription>
         </DialogHeader>
 
         <div className="space-y-4 py-4">
           <div className="space-y-2">
             <Label htmlFor="source" className="text-sm font-medium text-gray-300">
-              Local path or Hugging Face repo id
-            </Label>
+              {i18n.t("Local path or Hugging Face repo id")}</Label>
             <Input
               id="source"
               value={source}
@@ -73,13 +70,12 @@ const ImportModelModal: React.FC<Props> = ({ open, onOpenChange, onImported }) =
           </div>
           <div className="space-y-2">
             <Label htmlFor="name" className="text-sm font-medium text-gray-300">
-              Display name (optional)
-            </Label>
+              {i18n.t("Display name (optional)")}</Label>
             <Input
               id="name"
               value={name}
               onChange={(e) => setName(e.target.value)}
-              placeholder="My imported policy"
+              placeholder={i18n.t("My imported policy")}
               className="bg-gray-800 border-gray-700 text-white"
             />
           </div>
@@ -109,8 +105,7 @@ const ImportModelModal: React.FC<Props> = ({ open, onOpenChange, onImported }) =
               variant="outline"
               className="border-gray-500 px-8 text-zinc-400 bg-zinc-900 hover:bg-zinc-800"
             >
-              Cancel
-            </Button>
+              {i18n.t("Cancel")}</Button>
           </div>
         </div>
       </DialogContent>

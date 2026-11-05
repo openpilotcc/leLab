@@ -1,3 +1,4 @@
+import i18n from "@/i18n";
 import React, { useState } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import { Button } from "@/components/ui/button";
@@ -68,8 +69,8 @@ const Upload = () => {
     const loadDatasetInfo = async () => {
       if (!initialDatasetInfo?.dataset_repo_id) {
         toast({
-          title: "No Dataset Information",
-          description: "Please complete a recording session first.",
+          title: i18n.t("No Dataset Information"),
+          description: i18n.t("Please complete a recording session first."),
           variant: "destructive",
         });
         navigate("/");
@@ -98,19 +99,19 @@ const Upload = () => {
         } else {
           // Fallback to initial dataset info if backend fails
           toast({
-            title: "Warning",
+            title: i18n.t("Warning"),
             description:
-              "Could not load complete dataset information. Using session data.",
+              i18n.t("Could not load complete dataset information. Using session data."),
             variant: "destructive",
           });
           setDatasetInfo(initialDatasetInfo);
         }
       } catch (error) {
-        console.error("Error loading dataset info:", error);
+        console.error(i18n.t("Error loading dataset info:"), error);
         // Fallback to initial dataset info
         toast({
-          title: "Warning",
-          description: "Could not connect to backend. Using session data.",
+          title: i18n.t("Warning"),
+          description: i18n.t("Could not connect to backend. Using session data."),
           variant: "destructive",
         });
         setDatasetInfo(initialDatasetInfo);
@@ -170,13 +171,13 @@ const Upload = () => {
       if (response.ok && data.success) {
         setUploadSuccess(true);
         toast({
-          title: "Upload Successful!",
+          title: i18n.t("Upload Successful!"),
           description: `Dataset ${datasetInfo.dataset_repo_id} has been uploaded to HuggingFace Hub.`,
         });
       } else {
-        const fallback = "Failed to upload dataset to HuggingFace Hub.";
+        const fallback = i18n.t("Failed to upload dataset to HuggingFace Hub.");
         toast({
-          title: "Upload Failed",
+          title: i18n.t("Upload Failed"),
           description: data.docs_url ? (
             <span>
               {data.message || fallback}{" "}
@@ -186,8 +187,7 @@ const Upload = () => {
                 rel="noopener noreferrer"
                 className="underline font-medium"
               >
-                Open setup guide
-              </a>
+                {i18n.t("Open setup guide")}</a>
             </span>
           ) : (
             data.message || fallback
@@ -198,8 +198,8 @@ const Upload = () => {
     } catch (error) {
       console.error("Error uploading dataset:", error);
       toast({
-        title: "Connection Error",
-        description: "Could not connect to the backend server.",
+        title: i18n.t("Connection Error"),
+        description: i18n.t("Could not connect to the backend server."),
         variant: "destructive",
       });
     } finally {
@@ -209,8 +209,8 @@ const Upload = () => {
 
   const handleSkipUpload = () => {
     toast({
-      title: "Upload Skipped",
-      description: "Dataset saved locally. You can upload it manually later.",
+      title: i18n.t("Upload Skipped"),
+      description: i18n.t("Dataset saved locally. You can upload it manually later."),
     });
     navigate("/");
   };
@@ -221,7 +221,7 @@ const Upload = () => {
       <div className="min-h-screen bg-black text-white flex items-center justify-center">
         <div className="text-center">
           <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-500 mx-auto mb-4"></div>
-          <p className="text-lg">Loading dataset information...</p>
+          <p className="text-lg">{i18n.t("Loading dataset information...")}</p>
         </div>
       </div>
     );
@@ -241,13 +241,12 @@ const Upload = () => {
               className="border-gray-500 hover:border-gray-200 text-gray-300 hover:text-white"
             >
               <ArrowLeft className="w-4 h-4 mr-2" />
-              Back to Home
-            </Button>
+              {i18n.t("Back to Home")}</Button>
             <Button
               onClick={() => setShowDeleteConfirm(true)}
               variant="outline"
               size="icon"
-              aria-label="Delete dataset from disk"
+              aria-label={i18n.t("Delete dataset from disk")}
               className="border-red-500/40 text-red-400 hover:border-red-400 hover:text-red-300 hover:bg-red-500/10"
             >
               <Trash2 className="w-4 h-4" />
@@ -261,7 +260,7 @@ const Upload = () => {
               <Database className="w-8 h-8 text-blue-500" />
             )}
             <h1 className="text-3xl font-bold">
-              {uploadSuccess ? "Upload Complete" : "Dataset Upload"}
+              {uploadSuccess ? i18n.t("Upload Complete") : i18n.t("Dataset Upload")}
             </h1>
           </div>
         </div>
@@ -272,13 +271,10 @@ const Upload = () => {
             <div className="flex items-center gap-3 mb-4">
               <CheckCircle className="w-6 h-6 text-green-500" />
               <h2 className="text-xl font-semibold text-green-400">
-                Successfully Uploaded!
-              </h2>
+                {i18n.t("Successfully Uploaded!")}</h2>
             </div>
             <p className="text-gray-300 mb-4">
-              Your dataset has been uploaded to HuggingFace Hub and is now
-              available for training and sharing.
-            </p>
+              {i18n.t("Your dataset has been uploaded to HuggingFace Hub and is now available for training and sharing.")}</p>
             <div className="flex flex-col sm:flex-row gap-4">
               <Button
                 onClick={() => {
@@ -293,8 +289,7 @@ const Upload = () => {
                 className="bg-blue-500 hover:bg-blue-600 text-white"
               >
                 <ExternalLink className="w-4 h-4 mr-2" />
-                View on HuggingFace Hub
-              </Button>
+                {i18n.t("View on HuggingFace Hub")}</Button>
               <Button
                 onClick={() =>
                   navigate("/training", {
@@ -303,8 +298,7 @@ const Upload = () => {
                 }
                 className="bg-purple-500 hover:bg-purple-600 text-white"
               >
-                Start Training
-              </Button>
+                {i18n.t("Start Training")}</Button>
             </div>
           </div>
         )}
@@ -315,8 +309,7 @@ const Upload = () => {
             {/* Dataset Summary */}
             <div className="bg-gray-900 rounded-lg p-6 border border-gray-700 mb-8">
               <h2 className="text-xl font-semibold text-white mb-4">
-                Dataset Summary
-              </h2>
+                {i18n.t("Dataset Summary")}</h2>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div className="space-y-3">
                   <div>
@@ -338,8 +331,7 @@ const Upload = () => {
                     </p>
                     {datasetInfo.total_frames && (
                       <p className="text-gray-400 text-sm">
-                        {datasetInfo.total_frames} total frames
-                      </p>
+                        {datasetInfo.total_frames} {i18n.t("total frames")}</p>
                     )}
                   </div>
                   <div>
@@ -361,8 +353,7 @@ const Upload = () => {
             {!isAlreadyOnHub && (
               <div className="bg-gray-900 rounded-lg p-6 border border-gray-700 mb-8">
                 <h2 className="text-xl font-semibold text-white mb-6">
-                  Upload Configuration
-                </h2>
+                  {i18n.t("Upload Configuration")}</h2>
 
                 <div className="space-y-6">
                   {/* Tags */}
@@ -378,8 +369,7 @@ const Upload = () => {
                       className="bg-gray-800 border-gray-600 text-white"
                     />
                     <p className="text-sm text-gray-500 mt-1">
-                      Tags help others discover your dataset on HuggingFace Hub
-                    </p>
+                      {i18n.t("Tags help others discover your dataset on HuggingFace Hub")}</p>
                   </div>
 
                   {/* Privacy Setting */}
@@ -401,14 +391,13 @@ const Upload = () => {
                         <Eye className="w-4 h-4 text-gray-400" />
                       )}
                       <Label htmlFor="private" className="text-gray-300">
-                        Make dataset private
-                      </Label>
+                        {i18n.t("Make dataset private")}</Label>
                     </div>
                   </div>
                   <p className="text-sm text-gray-500 ml-6">
                     {uploadConfig.private
-                      ? "Only you will be able to access this dataset"
-                      : "Dataset will be publicly accessible on HuggingFace Hub"}
+                      ? i18n.t("Only you will be able to access this dataset")
+                      : i18n.t("Dataset will be publicly accessible on HuggingFace Hub")}
                   </p>
                 </div>
               </div>
@@ -422,8 +411,7 @@ const Upload = () => {
                   className="bg-blue-500 hover:bg-blue-600 text-white font-semibold py-4 px-8 text-lg"
                 >
                   <ExternalLink className="w-5 h-5 mr-2" />
-                  View on Hugging Face Hub
-                </Button>
+                  {i18n.t("View on Hugging Face Hub")}</Button>
               ) : (
                 <>
                   <Button
@@ -434,13 +422,11 @@ const Upload = () => {
                     {isUploading ? (
                       <>
                         <Loader2 className="w-5 h-5 mr-2 animate-spin" />
-                        Uploading to Hub...
-                      </>
+                        {i18n.t("Uploading to Hub...")}</>
                     ) : (
                       <>
                         <UploadIcon className="w-5 h-5 mr-2" />
-                        Upload to HuggingFace Hub
-                      </>
+                        {i18n.t("Upload to HuggingFace Hub")}</>
                     )}
                   </Button>
 
@@ -450,8 +436,7 @@ const Upload = () => {
                     variant="outline"
                     className="border-gray-600 text-gray-300 hover:bg-gray-800 hover:text-white py-4 px-8 text-lg"
                   >
-                    Skip Upload
-                  </Button>
+                    {i18n.t("Skip Upload")}</Button>
                 </>
               )}
             </div>
@@ -463,25 +448,16 @@ const Upload = () => {
                   <AlertCircle className="w-5 h-5 text-blue-400 mt-0.5" />
                   <div>
                     <h3 className="font-semibold text-blue-400 mb-2">
-                      About HuggingFace Hub Upload
-                    </h3>
+                      {i18n.t("About HuggingFace Hub Upload")}</h3>
                     <ul className="text-sm text-gray-300 space-y-1">
                       <li>
-                        • Your dataset will be uploaded to HuggingFace Hub for
-                        sharing and collaboration
-                      </li>
+                        {i18n.t("• Your dataset will be uploaded to HuggingFace Hub for sharing and collaboration")}</li>
                       <li>
-                        • You need to be logged in to HuggingFace CLI on the
-                        server
-                      </li>
+                        {i18n.t("• You need to be logged in to HuggingFace CLI on the server")}</li>
                       <li>
-                        • Uploaded datasets can be used for training models and
-                        sharing with the community
-                      </li>
+                        {i18n.t("• Uploaded datasets can be used for training models and sharing with the community")}</li>
                       <li>
-                        • You can always upload manually later using the
-                        HuggingFace CLI
-                      </li>
+                        {i18n.t("• You can always upload manually later using the HuggingFace CLI")}</li>
                     </ul>
                   </div>
                 </div>

@@ -1,3 +1,4 @@
+import i18n from "@/i18n";
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
@@ -18,7 +19,7 @@ const TrainingHeader: React.FC = () => {
           <ArrowLeft className="w-5 h-5" />
         </Button>
         <Logo />
-        <h1 className="font-bold text-white text-2xl">Training</h1>
+        <h1 className="font-bold text-white text-2xl">{i18n.t("Training")}</h1>
       </div>
     </div>
   );

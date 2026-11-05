@@ -1,3 +1,4 @@
+import i18n from "@/i18n";
 import React, {
   createContext,
   useState,
@@ -92,7 +93,7 @@ export const UrdfProvider: React.FC<UrdfProviderProps> = ({ children }) => {
         if (!cancelled) setUrdfContent(content);
       } catch (error) {
         if (!cancelled) {
-          console.error("Error loading default Urdf content:", error);
+          console.error(i18n.t("Error loading default Urdf content:"), error);
         }
       }
     })();
@@ -111,8 +112,8 @@ export const UrdfProvider: React.FC<UrdfProviderProps> = ({ children }) => {
     setUrdfContent(null);
     setCurrentAnimationConfig(null);
 
-    toast.info("Switched to default model", {
-      description: "The default ARM100 robot model is now displayed.",
+    toast.info(i18n.t("Switched to default model"), {
+      description: i18n.t("The default ARM100 robot model is now displayed."),
     });
   }, []);
 
@@ -164,13 +165,13 @@ export const UrdfProvider: React.FC<UrdfProviderProps> = ({ children }) => {
         .filter((item) => item !== null);
 
       if (files.length === 0) {
-        console.error("❌ Could not find file for selected Urdf model");
+        console.error(i18n.t("❌ Could not find file for selected Urdf model"));
         return;
       }
 
       // Show a toast notification that we're loading the Urdf
-      const loadingToast = toast.loading("Loading Urdf model...", {
-        description: "Preparing 3D visualization",
+      const loadingToast = toast.loading(i18n.t("Loading Urdf model..."), {
+        description: i18n.t("Preparing 3D visualization"),
         duration: 5000,
       });
 
@@ -201,9 +202,9 @@ export const UrdfProvider: React.FC<UrdfProviderProps> = ({ children }) => {
         setIsDefaultModel(false);
 
         const modelDisplayName =
-          model.name || model.path.split("/").pop() || "Unknown";
+          model.name || model.path.split("/").pop() || i18n.t("Unknown");
 
-        toast.success("Urdf model loaded successfully", {
+        toast.success(i18n.t("Urdf model loaded successfully"), {
           description: `Model: ${modelDisplayName}`,
           duration: 3000,
         });
@@ -214,9 +215,9 @@ export const UrdfProvider: React.FC<UrdfProviderProps> = ({ children }) => {
         });
       } catch (error) {
         // Error case
-        console.error("❌ Error processing selected Urdf:", error);
+        console.error(i18n.t("❌ Error processing selected Urdf:"), error);
         toast.dismiss(loadingToast);
-        toast.error("Error loading Urdf", {
+        toast.error(i18n.t("Error loading Urdf"), {
           description: `Error: ${
             error instanceof Error ? error.message : String(error)
           }`,
@@ -234,7 +235,7 @@ export const UrdfProvider: React.FC<UrdfProviderProps> = ({ children }) => {
   const selectUrdfModel = useCallback(
     (model: UrdfFileModel) => {
       if (!urdfProcessor) {
-        console.error("❌ No Urdf processor available");
+        console.error(i18n.t("❌ No Urdf processor available"));
         return;
       }
 
@@ -246,14 +247,14 @@ export const UrdfProvider: React.FC<UrdfProviderProps> = ({ children }) => {
           .split("/")
           .pop()
           ?.replace(/\.urdf$/i, "") ||
-        "Unknown";
+        i18n.t("Unknown");
 
       urdfProcessor.loadUrdf(model.blobUrl);
 
       setIsDefaultModel(false);
 
       toast.info(`Loading model: ${modelName}`, {
-        description: "Preparing 3D visualization",
+        description: i18n.t("Preparing 3D visualization"),
         duration: 2000,
       });
 
@@ -309,8 +310,8 @@ export const UrdfProvider: React.FC<UrdfProviderProps> = ({ children }) => {
               setIsDefaultModel(false);
 
               if (files[availableModels[0]]) {
-                const loadingToast = toast.loading("Loading Urdf model...", {
-                  description: "Preparing 3D visualization",
+                const loadingToast = toast.loading(i18n.t("Loading Urdf model..."), {
+                  description: i18n.t("Preparing 3D visualization"),
                   duration: 5000,
                 });
 
@@ -323,7 +324,7 @@ export const UrdfProvider: React.FC<UrdfProviderProps> = ({ children }) => {
 
                   toast.dismiss(loadingToast);
 
-                  toast.success("Urdf model loaded successfully", {
+                  toast.success(i18n.t("Urdf model loaded successfully"), {
                     description: `Model: ${modelName}`,
                     duration: 3000,
                   });
@@ -335,7 +336,7 @@ export const UrdfProvider: React.FC<UrdfProviderProps> = ({ children }) => {
                 } catch (loadError) {
                   console.error("Error loading Urdf:", loadError);
                   toast.dismiss(loadingToast);
-                  toast.error("Error loading Urdf", {
+                  toast.error(i18n.t("Error loading Urdf"), {
                     description: `Error: ${
                       loadError instanceof Error
                         ? loadError.message
@@ -352,7 +353,7 @@ export const UrdfProvider: React.FC<UrdfProviderProps> = ({ children }) => {
                 }
               } else {
                 console.error(
-                  "Could not find file for Urdf model:",
+                  i18n.t("Could not find file for Urdf model:"),
                   availableModels[0]
                 );
 
@@ -379,7 +380,7 @@ export const UrdfProvider: React.FC<UrdfProviderProps> = ({ children }) => {
 
             notifyUrdfCallbacks({
               hasUrdf: true,
-              modelName: "Multiple models available",
+              modelName: i18n.t("Multiple models available"),
             });
           }
         } else {
@@ -387,14 +388,14 @@ export const UrdfProvider: React.FC<UrdfProviderProps> = ({ children }) => {
 
           resetToDefaultModel();
 
-          toast.error("No Urdf file found", {
-            description: "Please upload a folder containing a .urdf file.",
+          toast.error(i18n.t("No Urdf file found"), {
+            description: i18n.t("Please upload a folder containing a .urdf file."),
             duration: 3000,
           });
         }
       } catch (error) {
-        console.error("Error processing Urdf files:", error);
-        toast.error("Error processing files", {
+        console.error(i18n.t("Error processing Urdf files:"), error);
+        toast.error(i18n.t("Error processing files"), {
           description: `Error: ${
             error instanceof Error ? error.message : String(error)
           }`,

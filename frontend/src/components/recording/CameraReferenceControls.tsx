@@ -1,3 +1,4 @@
+import i18n from "@/i18n";
 import React from "react";
 import { Button } from "@/components/ui/button";
 
@@ -31,7 +32,7 @@ const CameraReferenceControls: React.FC<Props> = ({
         disabled={disabled}
         className="h-7 px-2 text-xs bg-gray-800 border-gray-700 text-white hover:bg-gray-700"
       >
-        {hasReference ? "Replace reference" : "Set reference"}
+        {hasReference ? i18n.t("Replace reference") : i18n.t("Set reference")}
       </Button>
       {hasReference && (
         <Button

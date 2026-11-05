@@ -1,3 +1,4 @@
+import i18n from "@/i18n";
 import React, { useState } from "react";
 import {
   AlertDialog,
@@ -52,7 +53,7 @@ const DeleteDatasetDialog: React.FC<DeleteDatasetDialogProps> = ({
       const data = await response.json();
       if (response.ok && data.success) {
         toast({
-          title: "Dataset Deleted",
+          title: i18n.t("Dataset Deleted"),
           description: deleteFromHub
             ? `${repoId} has been removed from disk and the Hub.`
             : `${repoId} has been removed from disk.`,
@@ -60,15 +61,15 @@ const DeleteDatasetDialog: React.FC<DeleteDatasetDialogProps> = ({
         onDeleted();
       } else {
         toast({
-          title: "Delete Failed",
-          description: data.message || "Could not delete the dataset.",
+          title: i18n.t("Delete Failed"),
+          description: data.message || i18n.t("Could not delete the dataset."),
           variant: "destructive",
         });
       }
     } catch {
       toast({
-        title: "Connection Error",
-        description: "Could not connect to the backend server.",
+        title: i18n.t("Connection Error"),
+        description: i18n.t("Could not connect to the backend server."),
         variant: "destructive",
       });
     } finally {
@@ -88,10 +89,9 @@ const DeleteDatasetDialog: React.FC<DeleteDatasetDialogProps> = ({
     >
       <AlertDialogContent className="bg-gray-900 border-gray-700 text-white">
         <AlertDialogHeader>
-          <AlertDialogTitle>Delete dataset from disk?</AlertDialogTitle>
+          <AlertDialogTitle>{i18n.t("Delete dataset from disk?")}</AlertDialogTitle>
           <AlertDialogDescription className="text-gray-400">
-            This permanently removes <span className="font-mono text-white">{repoId}</span> from your local cache. This action cannot be undone.
-          </AlertDialogDescription>
+            {i18n.t("This permanently removes")} <span className="font-mono text-white">{repoId}</span> {i18n.t("from your local cache. This action cannot be undone.")}</AlertDialogDescription>
         </AlertDialogHeader>
         {onHub && (
           <div className="space-y-2">
@@ -102,14 +102,12 @@ const DeleteDatasetDialog: React.FC<DeleteDatasetDialogProps> = ({
                 onCheckedChange={(checked) => setDeleteFromHub(checked === true)}
               />
               <Label htmlFor="delete-from-hub" className="text-sm text-gray-300">
-                Also delete this dataset from the HuggingFace Hub
-              </Label>
+                {i18n.t("Also delete this dataset from the HuggingFace Hub")}</Label>
             </div>
             {deleteFromHub && (
               <div className="space-y-1">
                 <Label className="text-xs text-gray-400">
-                  Type <span className="font-mono text-white">{repoId}</span> to confirm
-                </Label>
+                  Type <span className="font-mono text-white">{repoId}</span> {i18n.t("to confirm")}</Label>
                 <Input
                   value={confirmText}
                   onChange={(e) => setConfirmText(e.target.value)}
@@ -121,14 +119,13 @@ const DeleteDatasetDialog: React.FC<DeleteDatasetDialogProps> = ({
         )}
         <AlertDialogFooter>
           <AlertDialogCancel className="bg-gray-800 border-gray-700 text-white hover:bg-gray-700">
-            Keep dataset
-          </AlertDialogCancel>
+            {i18n.t("Keep dataset")}</AlertDialogCancel>
           <AlertDialogAction
             onClick={handleDelete}
             disabled={isDeleting || (deleteFromHub && confirmText !== repoId)}
             className="bg-red-500 hover:bg-red-600 text-white"
           >
-            {isDeleting ? "Deleting…" : "Delete"}
+            {isDeleting ? "Deleting…" : i18n.t("Delete")}
           </AlertDialogAction>
         </AlertDialogFooter>
       </AlertDialogContent>

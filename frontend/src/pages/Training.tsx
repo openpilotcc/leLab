@@ -1,3 +1,4 @@
+import i18n from "@/i18n";
 import React, { useEffect, useRef, useState } from "react";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
 import { useToast } from "@/hooks/use-toast";
@@ -208,7 +209,7 @@ const ConfigurationMode: React.FC = () => {
 
   const handleStart = async () => {
     if (!trainingConfig.dataset_repo_id.trim()) {
-      toast({ title: "Error", description: "Dataset repository ID is required", variant: "destructive" });
+      toast({ title: i18n.t("Error"), description: i18n.t("Dataset repository ID is required"), variant: "destructive" });
       return;
     }
 
@@ -242,11 +243,11 @@ const ConfigurationMode: React.FC = () => {
     setIsStarting(true);
     try {
       const job = await startTrainingJob(baseUrl, fetchWithHeaders, configToRequest(trainingConfig));
-      toast({ title: "Training Started", description: job.name });
+      toast({ title: i18n.t("Training Started"), description: job.name });
       navigate(`/training/${job.id}`);
     } catch (e) {
       const msg = e instanceof Error ? e.message : String(e);
-      toast({ title: "Error", description: msg, variant: "destructive" });
+      toast({ title: i18n.t("Error"), description: msg, variant: "destructive" });
       // If the failure was the 409 case, refresh our running-job knowledge.
       listJobs(baseUrl, fetchWithHeaders, 200)
         .then((j) =>
@@ -267,8 +268,7 @@ const ConfigurationMode: React.FC = () => {
           <TrainingHeader />
           <div className="flex items-center justify-center py-24 text-slate-400">
             <Loader2 className="w-6 h-6 animate-spin mr-3" />
-            Checking training environment…
-          </div>
+            {i18n.t("Checking training environment…")}</div>
         </div>
       </div>
     );
@@ -299,9 +299,9 @@ const ConfigurationMode: React.FC = () => {
   const startTooltip = localBlocked
     ? "Another local training is already running"
     : targetRequiresAuth && !authenticated
-    ? "Log in to Hugging Face to use cloud compute"
+    ? i18n.t("Log in to Hugging Face to use cloud compute")
     : targetMissingFlavor
-    ? "Select a hardware flavor"
+    ? i18n.t("Select a hardware flavor")
     : undefined;
 
   return (
@@ -329,12 +329,10 @@ const ConfigurationMode: React.FC = () => {
               >
                 {isStarting ? (
                   <>
-                    <Loader2 className="w-5 h-5 mr-2 animate-spin" /> Starting…
-                  </>
+                    <Loader2 className="w-5 h-5 mr-2 animate-spin" /> {i18n.t("Starting…")}</>
                 ) : (
                   <>
-                    <Play className="w-5 h-5 mr-2" /> Start Training
-                  </>
+                    <Play className="w-5 h-5 mr-2" /> {i18n.t("Start Training")}</>
                 )}
               </Button>
             );
@@ -505,10 +503,10 @@ const MonitoringMode: React.FC<{ jobId: string }> = ({ jobId }) => {
     try {
       const next = await stopJob(baseUrl, fetchWithHeaders, job.id);
       setJob(next);
-      toast({ title: "Stopping…" });
+      toast({ title: i18n.t("Stopping…") });
     } catch (e) {
       toast({
-        title: "Stop failed",
+        title: i18n.t("Stop failed"),
         description: e instanceof Error ? e.message : String(e),
         variant: "destructive",
       });
@@ -524,7 +522,7 @@ const MonitoringMode: React.FC<{ jobId: string }> = ({ jobId }) => {
       navigate("/");
     } catch (e) {
       toast({
-        title: "Delete failed",
+        title: i18n.t("Delete failed"),
         description: e instanceof Error ? e.message : String(e),
         variant: "destructive",
       });
@@ -562,8 +560,7 @@ const MonitoringMode: React.FC<{ jobId: string }> = ({ jobId }) => {
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-3">
             <Button variant="ghost" onClick={() => navigate("/")} className="text-slate-400 hover:text-white">
-              <ArrowLeft className="w-4 h-4 mr-2" /> Jobs
-            </Button>
+              <ArrowLeft className="w-4 h-4 mr-2" /> {i18n.t("Jobs")}</Button>
             <div>
               <div className="flex items-center gap-2">
                 <h1 className="text-xl font-semibold text-white">{job.name}</h1>
@@ -573,8 +570,7 @@ const MonitoringMode: React.FC<{ jobId: string }> = ({ jobId }) => {
                   </span>
                 ) : (
                   <span className="text-xs px-2 py-0.5 rounded bg-slate-700 text-slate-200 border border-slate-600">
-                    Local
-                  </span>
+                    {i18n.t("Local")}</span>
                 )}
                 {job.runner === "hf_cloud" && job.hf_repo_id && job.state === "done" && (
                   <a
@@ -583,8 +579,7 @@ const MonitoringMode: React.FC<{ jobId: string }> = ({ jobId }) => {
                     rel="noreferrer"
                     className="text-xs text-amber-300 hover:text-amber-200 underline"
                   >
-                    View on Hub ↗
-                  </a>
+                    {i18n.t("View on Hub ↗")}</a>
                 )}
                 {job.wandb_run_url && (
                   <a
@@ -593,8 +588,7 @@ const MonitoringMode: React.FC<{ jobId: string }> = ({ jobId }) => {
                     rel="noreferrer"
                     className="text-xs text-yellow-300 hover:text-yellow-200 underline"
                   >
-                    View on W&B ↗
-                  </a>
+                    {i18n.t("View on W&B ↗")}</a>
                 )}
               </div>
               <p className="text-xs text-slate-400">
@@ -605,12 +599,10 @@ const MonitoringMode: React.FC<{ jobId: string }> = ({ jobId }) => {
           </div>
           {isRunning ? (
             <Button onClick={handleStop} className="bg-red-500 hover:bg-red-600 text-white">
-              <Square className="w-4 h-4 mr-2" /> Stop
-            </Button>
+              <Square className="w-4 h-4 mr-2" /> {i18n.t("Stop")}</Button>
           ) : (
             <Button onClick={handleDelete} variant="ghost" className="text-slate-400 hover:text-white">
-              <Trash2 className="w-4 h-4 mr-2" /> Delete
-            </Button>
+              <Trash2 className="w-4 h-4 mr-2" /> {i18n.t("Delete")}</Button>
           )}
         </div>
 
@@ -621,9 +613,9 @@ const MonitoringMode: React.FC<{ jobId: string }> = ({ jobId }) => {
           formatTime={formatTime}
         />
         <div className="bg-slate-800/40 border border-slate-700 rounded-lg p-4 flex items-center gap-3">
-          <span className="text-sm font-semibold text-slate-300">Run inference</span>
+          <span className="text-sm font-semibold text-slate-300">{i18n.t("Run inference")}</span>
           {checkpoints.length === 0 ? (
-            <span className="text-xs text-slate-500">No checkpoints yet — wait for the first save.</span>
+            <span className="text-xs text-slate-500">{i18n.t("No checkpoints yet — wait for the first save.")}</span>
           ) : (
             <>
               <CheckpointDropdown

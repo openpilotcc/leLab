@@ -1,3 +1,4 @@
+import i18n from "@/i18n";
 import React, { useEffect, useLayoutEffect, useRef, useState } from "react";
 import { Check, Lock, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -96,7 +97,7 @@ const TourCard: React.FC<TourCardProps> = ({ rect }) => {
     <div
       ref={cardRef}
       role="dialog"
-      aria-label="Guided tour"
+      aria-label={i18n.t("Guided tour")}
       aria-live="polite"
       tabIndex={-1}
       className={cn(
@@ -109,7 +110,7 @@ const TourCard: React.FC<TourCardProps> = ({ rect }) => {
       <button
         type="button"
         onClick={() => stop(false)}
-        aria-label="Exit tour"
+        aria-label={i18n.t("Exit tour")}
         className="absolute right-2 top-2 rounded p-1 text-gray-400 hover:bg-gray-800 hover:text-white"
       >
         <X className="h-4 w-4" />
@@ -123,8 +124,7 @@ const TourCard: React.FC<TourCardProps> = ({ rect }) => {
           {currentComplete && (
             <span className="inline-flex items-center gap-1 rounded-full bg-green-500/15 px-1.5 py-0.5 text-[10px] font-semibold uppercase tracking-wide text-green-400">
               <Check className="h-3 w-3" />
-              Done
-            </span>
+              {i18n.t("Done")}</span>
           )}
         </div>
         <h3 className="pr-6 text-base font-semibold text-white">
@@ -150,8 +150,7 @@ const TourCard: React.FC<TourCardProps> = ({ rect }) => {
             disabled={isFirst}
             className="text-gray-400 hover:text-white disabled:opacity-40"
           >
-            Back
-          </Button>
+            {i18n.t("Back")}</Button>
           <div className="flex items-center gap-2">
             {currentStep.optional && !isLast && (
               <Button
@@ -173,7 +172,7 @@ const TourCard: React.FC<TourCardProps> = ({ rect }) => {
                   : "bg-blue-600 hover:bg-blue-700"
               )}
             >
-              {isLast ? "Finish" : currentComplete ? "Continue" : "Next"}
+              {isLast ? i18n.t("Finish") : currentComplete ? "Continue" : i18n.t("Next")}
             </Button>
           </div>
         </div>

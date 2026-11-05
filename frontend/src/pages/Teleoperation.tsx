@@ -1,3 +1,4 @@
+import i18n from "@/i18n";
 import React, { useCallback, useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import VisualizerPanel from "@/components/control/VisualizerPanel";
@@ -24,8 +25,8 @@ const TeleoperationPage = () => {
       const data = await res.json();
       if (data?.success) {
         toast({
-          title: "Teleoperation stopped",
-          description: "The arm was disconnected cleanly.",
+          title: i18n.t("Teleoperation stopped"),
+          description: i18n.t("The arm was disconnected cleanly."),
         });
       }
     } catch {
