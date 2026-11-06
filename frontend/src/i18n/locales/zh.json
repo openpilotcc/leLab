@@ -551,5 +551,6 @@
   "Record": "录制",
   "Couldn't load jobs": "无法加载任务",
   "Checking HF": "正在检查 HF",
-  "Couldn't load jobs:": "无法加载任务："
+  "Couldn't load jobs:": "无法加载任务：",
+  "Train": "训练"
 }

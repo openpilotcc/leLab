@@ -18,7 +18,7 @@ interface WelcomeDialogProps {
 
 // The stages a newcomer will walk through, shown as a quick preview so the
 // tour's value is clear before they commit two minutes to it.
-const STAGES = [i18n.t("Calibrate"), i18n.t("Record"), "Train", i18n.t("Run")];
+const STAGES = [i18n.t("Calibrate"), i18n.t("Record"), i18n.t("Train"), i18n.t("Run")];
 
 const WelcomeDialog: React.FC<WelcomeDialogProps> = ({
   open,
